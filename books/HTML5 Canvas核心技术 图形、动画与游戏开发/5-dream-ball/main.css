@@ -1,0 +1,54 @@
+/*
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @Date: 2019-11-13 23:28:18
+ * @Description: 入口文件
+ * @LastEditors:
+ * @LastEditorsEmail:
+ * @LastEditTime: 2019-11-16 00:22:47
+ * @LastEditorsDescription:
+ */
+body {
+  background-color: #ddd;
+}
+body #canvas {
+  margin-left: 10px;
+  margin-top: 10px;
+  background: #fff;
+  border: thin solid #aaa;
+}
+body #glassPanel {
+  position: absolute;
+  left: 50px;
+  top: 50px;
+  padding: 0px 20px 10px 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: thin solid rgba(0, 0, 0, 0.6);
+  color: #eee;
+  font-family: Droid Sans, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 20px;
+  box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 20px;
+}
+body #glassPanel h2 {
+  font-weight: normal;
+}
+body #glassPanel .title {
+  font-size: 2em;
+  color: rgba(255, 255, 0, 0.8);
+}
+body #glassPanel a:hover {
+  color: yellow;
+}
+body #glassPanel a {
+  text-decoration: none;
+  color: #ccc;
+  font-size: 3.5em;
+}
+body #glassPanel p {
+  margin: 10px;
+  color: #4141dc;
+  font-size: 12pt;
+  font-family: Palatino, Arial, Helvetica, sans-serif;
+}
