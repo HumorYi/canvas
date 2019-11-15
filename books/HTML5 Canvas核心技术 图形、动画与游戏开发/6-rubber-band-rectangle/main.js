@@ -5,14 +5,14 @@
  * @Description: 入口文件
  * @LastEditors:
  * @LastEditorsEmail:
- * @LastEditTime: 2019-11-16 02:17:36
+ * @LastEditTime: 2019-11-16 02:26:56
  * @LastEditorsDescription:
  */
 const canvas = document.getElementById('canvas')
 const rubberBand = document.getElementById('rubberBand')
 const resetButton = document.getElementById('resetButton')
 
-class RubberBandMarquee {
+class RubberBandRectangle {
   constructor(canvas, rubberBand, src) {
     this.canvas = canvas
     this.context = canvas.getContext('2d')
@@ -131,27 +131,27 @@ class RubberBandMarquee {
   }
 }
 
-const rubberBandMarquee = new RubberBandMarquee(canvas, rubberBand, '../shared/images/arch.png')
+const rubberBandRectangle = new RubberBandRectangle(canvas, rubberBand, '../shared/images/arch.png')
 
 canvas.onmousedown = e => {
   e.preventDefault()
 
-  rubberBandMarquee.start(e.x || e.clientX, e.y || e.clientY)
+  rubberBandRectangle.start(e.x || e.clientX, e.y || e.clientY)
 }
 
 window.onmousemove = e => {
   e.preventDefault()
 
-  rubberBandMarquee.dragging && rubberBandMarquee.stretch(e.x || e.clientX, e.y || e.clientY)
+  rubberBandRectangle.dragging && rubberBandRectangle.stretch(e.x || e.clientX, e.y || e.clientY)
 }
 
 window.onmouseup = e => {
   e.preventDefault()
 
-  rubberBandMarquee.end()
+  rubberBandRectangle.end()
 }
 
 resetButton.onclick = e => {
-  rubberBandMarquee.clear()
-  rubberBandMarquee.drawImg()
+  rubberBandRectangle.clear()
+  rubberBandRectangle.drawImg()
 }
