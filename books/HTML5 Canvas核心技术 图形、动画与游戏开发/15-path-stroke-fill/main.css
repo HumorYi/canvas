@@ -1,0 +1,29 @@
+/*
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @Date: 2019-11-13 23:28:18
+ * @Description: 入口文件
+ * @LastEditors:
+ * @LastEditorsEmail:
+ * @LastEditTime: 2019-11-21 00:17:06
+ * @LastEditorsDescription:
+ */
+
+body {
+  background: #dddddd;
+}
+
+#canvas {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  margin: 20px;
+  background: #ffffff;
+  border: thin solid #aaaaaa;
+}
+
+#text {
+  position: absolute;
+  left: 200px;
+  top: 200px;
+}

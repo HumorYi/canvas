@@ -1,0 +1,31 @@
+/*
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @Date: 2019-11-13 23:28:18
+ * @Description: 入口文件
+ * @LastEditors:
+ * @LastEditorsEmail:
+ * @LastEditTime: 2019-11-21 23:49:36
+ * @LastEditorsDescription:
+ */
+
+body {
+  background: #efefef;
+}
+
+#canvas {
+  background: #ffffff;
+  -webkit-box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.floatingControls {
+  position: absolute;
+  left: 475px;
+  top: 20px;
+}
+
+#canvas {
+  margin: 10px;
+}

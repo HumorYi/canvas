@@ -1,0 +1,27 @@
+/*
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @Date: 2019-11-13 23:28:18
+ * @Description: 入口文件
+ * @LastEditors:
+ * @LastEditorsEmail:
+ * @LastEditTime: 2019-11-16 13:12:26
+ * @LastEditorsDescription:
+ */
+body {
+  background-color: #ddd;
+}
+body #canvas {
+  position: absolute;
+  left: 10px;
+  top: 1.5em;
+  margin: 20px;
+  border: thin solid #aaaaaa;
+}
+body #snapshotImageElement {
+  position: absolute;
+  left: 10px;
+  top: 1.5em;
+  margin: 20px;
+  border: thin solid #aaaaaa;
+}
