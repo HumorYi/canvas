@@ -5,7 +5,7 @@
  * @Description: 入口文件
  * @LastEditors:
  * @LastEditorsEmail:
- * @LastEditTime: 2019-11-15 00:32:13
+ * @LastEditTime: 2019-11-16 13:16:08
  * @LastEditorsDescription:
  */
 const canvas = document.getElementById('canvas')
@@ -23,6 +23,8 @@ class Clock {
     this.numeral_spacing = 20
     this.radius = this.width / 2 - this.margin
     this.hand_radius = this.radius + this.numeral_spacing
+
+    this.loop = null
 
     this.init()
   }
@@ -86,17 +88,24 @@ class Clock {
   }
 
   drawClock() {
-    this.context.clearRect(0, 0, this.width, this.height)
+    this.clear()
 
     this.drawCircle()
     this.drawCenter()
     this.drawHands()
     this.drawNumerals()
   }
+
+  draw() {
+    this.loop = setInterval(() => {
+      this.drawClock()
+    }, 1000)
+  }
+
+  clear() {
+    this.context.clearRect(0, 0, this.width, this.height)
+  }
 }
 
 const clock = new Clock(canvas)
-
-loop = setInterval(() => {
-  clock.drawClock()
-}, 1000)
+clock.draw()
