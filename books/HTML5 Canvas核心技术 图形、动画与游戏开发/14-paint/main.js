@@ -2,10 +2,10 @@
  * @Author: Bamboo
  * @AuthorEmail: bamboo8493@126.com
  * @Date: 2019-11-13 23:23:33
- * @Description: 入口文件
+ * @Description: 入口文件 TODO:未写
  * @LastEditors:
  * @LastEditorsEmail:
- * @LastEditTime: 2019-11-20 23:39:02
+ * @LastEditTime: 2019-11-25 23:19:42
  * @LastEditorsDescription:
  */
 const canvas = document.getElementById('canvas')

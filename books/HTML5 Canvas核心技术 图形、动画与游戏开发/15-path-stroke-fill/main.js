@@ -5,41 +5,14 @@
  * @Description: 入口文件
  * @LastEditors:
  * @LastEditorsEmail:
- * @LastEditTime: 2019-11-22 00:07:53
+ * @LastEditTime: 2019-11-24 21:05:22
  * @LastEditorsDescription:
  */
 const canvas = document.getElementById('canvas')
 const context = canvas.getContext('2d')
-const drawGrid = (context, color, stepx, stepy) => {
-  const width = context.canvas.width
-  const height = context.canvas.height
-
-  context.save()
-
-  context.strokeStyle = color
-  context.lineWidth = 0.5
-
-  for (var i = stepx + 0.5; i < width; i += stepx) {
-    context.beginPath()
-    context.moveTo(i, 0)
-    context.lineTo(i, height)
-    context.stroke()
-    context.closePath()
-  }
-
-  for (var i = stepy + 0.5; i < height; i += stepy) {
-    context.beginPath()
-    context.moveTo(0, i)
-    context.lineTo(width, i)
-    context.stroke()
-    context.closePath()
-  }
-
-  context.restore()
-}
 
 // Initialization
-drawGrid(context, 'lightgray', 10, 10)
+drawGrid(context)
 
 // Drawing attributes
 context.font = '48pt Helvetica'

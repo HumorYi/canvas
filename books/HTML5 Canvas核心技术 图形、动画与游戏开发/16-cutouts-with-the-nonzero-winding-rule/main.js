@@ -5,41 +5,13 @@
  * @Description: 入口文件
  * @LastEditors:
  * @LastEditorsEmail:
- * @LastEditTime: 2019-11-22 00:44:34
+ * @LastEditTime: 2019-11-24 21:05:40
  * @LastEditorsDescription:
  */
 const canvas = document.getElementById('canvas')
 const context = canvas.getContext('2d')
 const directionCheckbox = document.getElementById('directionCheckbox')
 const annotationCheckbox = document.getElementById('annotationCheckbox')
-
-const drawGrid = (color, stepx, stepy) => {
-  const width = context.canvas.width
-  const height = context.canvas.height
-
-  context.save()
-
-  context.strokeStyle = color
-  context.lineWidth = 0.5
-
-  for (var i = stepx + 0.5; i < width; i += stepx) {
-    context.beginPath()
-    context.moveTo(i, 0)
-    context.lineTo(i, height)
-    context.stroke()
-    context.closePath()
-  }
-
-  for (var i = stepy + 0.5; i < height; i += stepy) {
-    context.beginPath()
-    context.moveTo(0, i)
-    context.lineTo(width, i)
-    context.stroke()
-    context.closePath()
-  }
-
-  context.restore()
-}
 
 const drawText = () => {
   context.save()
@@ -136,7 +108,7 @@ const draw = (sameDirection, sameAnnotation) => {
   context.clearRect(0, 0, context.canvas.width,
     context.canvas.height)
 
-  drawGrid('lightgray', 10, 10)
+  drawGrid(context)
 
   context.save()
 

@@ -5,20 +5,11 @@
  * @Description: 入口文件
  * @LastEditors:
  * @LastEditorsEmail:
- * @LastEditTime: 2019-11-15 00:43:59
+ * @LastEditTime: 2019-11-24 21:08:59
  * @LastEditorsDescription:
  */
 const canvas = document.getElementById('canvas')
 const readout = document.getElementById('readout')
-
-const windowToCanvas = (canvas, x, y) => {
-  let bbox = canvas.getBoundingClientRect()
-
-  return {
-    x: x - bbox.left * (canvas.width / bbox.width),
-    y: y - bbox.top * (canvas.height / bbox.height)
-  }
-}
 
 const updateReadout = (x, y) => {
   readout.innerText = `(${x.toFixed(0)}, ${y.toFixed(0)})`
@@ -74,7 +65,7 @@ class SpriteSheetsViewer {
     this.drawHorizontalLine(y)
   }
 
-  drawVerticalLine(x)  {
+  drawVerticalLine(x) {
     this.context.beginPath()
     this.context.moveTo(x + 0.5, 0)
     this.context.lineTo(x + 0.5, this.context.canvas.height)

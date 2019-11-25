@@ -5,7 +5,7 @@
  * @Description: 入口文件
  * @LastEditors:
  * @LastEditorsEmail:
- * @LastEditTime: 2019-11-16 01:13:26
+ * @LastEditTime: 2019-11-24 21:06:52
  * @LastEditorsDescription:
  */
 const canvas = document.getElementById('canvas')
@@ -13,21 +13,21 @@ const glassPanel = document.getElementById('glassPanel')
 const startButton = document.getElementById('startButton')
 
 class DreamBall {
-  constructor(canvas, grid_color, grid_step_x, grid_step_y) {
+  constructor(canvas, color, stepx, stepy) {
     this.canvas = canvas
     this.context = canvas.getContext('2d')
     this.width = canvas.width
     this.height = canvas.height
-
-    this.grid_color = grid_color
-    this.grid_step_x = grid_step_x
-    this.grid_step_y = grid_step_y
+    this.color = color
+    this.stepx = stepx
+    this.stepy = stepy
 
     this.circles = []
     this.paused = true
     this.timer = null
 
     this.init()
+    drawGrid(this.context, this.color, this.stepx, this.stepy)
   }
 
   init() {
@@ -42,33 +42,12 @@ class DreamBall {
         color: 'rgba(' + this.rgb() + ', 1.0)'
       })
     }
-
-    this.drawGrid()
   }
 
   rgb() {
     return (Math.random() * 255).toFixed(0) + ', ' +
       (Math.random() * 255).toFixed(0) + ', ' +
       (Math.random() * 255).toFixed(0)
-  }
-
-  drawGrid() {
-    this.context.strokeStyle = this.grid_color
-    this.context.lineWidth = 0.5
-
-    for (let i = this.grid_step_x + 0.5; i < this.width; i += this.grid_step_x) {
-      this.context.beginPath()
-      this.context.moveTo(i, 0)
-      this.context.lineTo(i, this.height)
-      this.context.stroke()
-    }
-
-    for (let i = this.grid_step_y + 0.5; i < this.height; i += this.grid_step_y) {
-      this.context.beginPath()
-      this.context.moveTo(0, i)
-      this.context.lineTo(this.width, i)
-      this.context.stroke()
-    }
   }
 
   drawBall() {
@@ -109,7 +88,7 @@ class DreamBall {
 
     this.timer = setInterval(() => {
       this.context.clearRect(0, 0, this.width, this.height)
-      this.drawGrid()
+      drawGrid(this.context, this.color, this.stepx, this.stepy)
       this.drawBall()
     }, 1000 / 60);
   }
@@ -119,7 +98,7 @@ class DreamBall {
   }
 }
 
-const dreamBall = new DreamBall(canvas, 'lightgray', 10, 10)
+const dreamBall = new DreamBall(canvas)
 
 startButton.onclick = e => {
   e.preventDefault()
