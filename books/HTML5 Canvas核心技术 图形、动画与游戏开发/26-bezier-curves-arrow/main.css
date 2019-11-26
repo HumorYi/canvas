@@ -1,0 +1,26 @@
+/*
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+ */
+
+ body {
+  background: #eeeeee;
+}
+
+#canvas {
+  position: absolute;
+  left: 0px;
+  margin-left: 20px;
+  margin-right: 20px;
+  background: lightskyblue;
+  border: thin solid rbga(0, 0, 0, 1.0);
+  -webkit-box-shadow: rgba(0, 0, 0, 0.5) 4px 4px 6px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.5) 4px 4px 6px;
+  box-shadow: rgba(0, 0, 0, 0.5) 4px 4px 6px;
+}
