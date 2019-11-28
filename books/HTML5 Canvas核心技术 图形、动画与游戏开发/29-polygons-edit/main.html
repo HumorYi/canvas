@@ -2,7 +2,7 @@
  * @Author: Bamboo
  * @AuthorEmail: bamboo8493@126.com
  * @AuthorDate: Do not edit
- * @AuthorDescription: 入口文件：多边形
+ * @AuthorDescription: 入口文件：多边形 编辑模式
  *  page - 98
  * @Modifier:
  * @ModifierEmail:
@@ -21,7 +21,7 @@
 </head>
 
 <body>
-  <canvas id='canvas' width='850' height='600'>
+  <canvas id='canvas' width='850' height='500'>
     Canvas not supported
   </canvas>
 
@@ -57,6 +57,7 @@
       <option value=20>20</option>
     </select>
 
+
     Start angle: <select id='startAngleSelect'>
       <option value=0 select>0</option>
       <option value=22.5>22.5</option>
@@ -69,10 +70,13 @@
     <input id='eraseAllButton' type='button' value='Erase all' />
   </div>
 
+  <div id='dragDiv'>
+    Edit: <input type='checkbox' id='editCheckbox' />
+  </div>
+
   <script src="../util/index.js"></script>
   <script src="../util/polygon.js"></script>
   <script src="../util/paint.js"></script>
-  <script src="../util/canvasMouseEvent.js"></script>
   <script src="./main.js"></script>
 </body>
 

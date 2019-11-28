@@ -9,8 +9,6 @@
  * @ModifierDescription:
  */
 const canvasMouseEvent = (canvas, paint, draw) => {
-  let dragging = false
-
   const movedLoc = {
     x: 0,
     y: 0
