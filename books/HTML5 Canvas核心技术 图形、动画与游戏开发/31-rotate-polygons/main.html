@@ -2,8 +2,8 @@
  * @Author: Bamboo
  * @AuthorEmail: bamboo8493@126.com
  * @AuthorDate: Do not edit
- * @AuthorDescription: 入口文件：多边形 编辑模式
- *  page - 103
+ * @AuthorDescription: 入口文件：旋转多边形
+ *  page - 117
  * @Modifier:
  * @ModifierEmail:
  * @ModifierDate: Do not edit
@@ -16,12 +16,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Drawing Polygons</title>
+  <title>Rotating Polygons</title>
   <link rel="stylesheet" href="./main.css" />
 </head>
 
 <body>
-  <canvas id='canvas' width='850' height='500'>
+  <canvas id='canvas' width='850' height='600'>
     Canvas not supported
   </canvas>
 
@@ -31,9 +31,9 @@
       <option value='green'>green</option>
       <option value='blue'>blue</option>
       <option value='orange'>orange</option>
-      <option value='cornflowerblue' selected>cornflowerblue</option>
+      <option value='cornflowerblue'>cornflowerblue</option>
       <option value='goldenrod'>goldenrod</option>
-      <option value='navy'>navy</option>
+      <option value='navy' selected>navy</option>
       <option value='purple'>purple</option>
     </select>
 
@@ -42,16 +42,19 @@
       <option value='green'>green</option>
       <option value='rgba(0,0,255,0.5)'>semi-transparent blue</option>
       <option value='orange'>orange</option>
-      <option value='rgba(100,140,230,0.5)'>semi-transparent cornflowerblue</option>
-      <option value='goldenrod' selected>goldenrod</option>
+      <option value='rgba(100,140,230,0.5)' selected>semi-transparent cornflowerblue</option>
+      <option value='rgba(218,165,32,0.5)'>semi-transparent goldenrod</option>
       <option value='navy'>navy</option>
       <option value='purple'>purple</option>
     </select>
 
     Sides: <select id='sidesSelect'>
-      <option value=4 select>4</option>
+      <option value=4>4</option>
+      <option value=5 selected>5</option>
       <option value=6>6</option>
+      <option value=7>7</option>
       <option value=8>8</option>
+      <option value=9>9</option>
       <option value=10>10</option>
       <option value=12>12</option>
       <option value=20>20</option>
@@ -75,7 +78,6 @@
   </div>
 
   <script src="../util/index.js"></script>
-  <script src="../util/polygon.js"></script>
   <script src="../util/paint.js"></script>
   <script src="./main.js"></script>
 </body>

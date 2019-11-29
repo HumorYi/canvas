@@ -18,20 +18,13 @@ const sidesSelect = document.getElementById('sidesSelect')
 const startAngleSelect = document.getElementById('startAngleSelect')
 const editCheckbox = document.getElementById('editCheckbox')
 
-
-const getStartAngle = val => {
-  return Math.PI / 180 * Number(val)
-}
-
-let draggingOffsetX = 0
-let draggingOffsetY = 0
+const polygons = []
+let guidewired = true
 let editing = false
 let dragging = false
-let guidewired = true
-let sides = Number(sidesSelect.value)
-let startAngle = getStartAngle(startAngleSelect.value)
-const polygons = []
-
+let draggingOffsetX = 0
+let draggingOffsetY = 0
+let draggingPolygon = null
 
 const startEditing = () => {
   canvas.style.cursor = 'pointer'
@@ -49,8 +42,12 @@ const draw = () => {
     paint.mousedown.x,
     paint.mousedown.y,
     paint.rubberbandRect.width,
-    sides,
-    startAngle
+    Number(sidesSelect.value),
+    Math.PI / 180 * Number(startAngleSelect.value),
+    strokeStyleSelect.value,
+    fillStyleSelect.value,
+    true,
+    fillCheckbox.checked,
   )
 
   polygon.draw(paint.context)
@@ -58,16 +55,10 @@ const draw = () => {
   !dragging && polygons.push(polygon)
 }
 
-const drawPolygons = () => polygons.forEach(polygon => {
-  paint.drawRubberbandShape(() => polygon.draw(paint.context))
-})
+const drawPolygons = () => polygons.forEach(polygon => polygon.draw(paint.context))
 
 const paint = new Paint(
   canvas,
-  strokeStyleSelect.value,
-  fillStyleSelect.value,
-  true,
-  fillCheckbox.checked,
   guidewired
 )
 
@@ -78,18 +69,17 @@ canvas.onmousedown = e => {
 
   e.preventDefault()
   e.stopPropagation()
+  dragging = true
 
   if (!editing) {
-    paint.mousedownEvent(loc.x, loc.y)
-    dragging = true
-    return
+    return paint.mousedownEvent(loc.x, loc.y)
   }
 
   polygons.forEach(polygon => {
     polygon.createPath(paint.context)
     if (paint.context.isPointInPath(loc.x, loc.y)) {
       paint.mousedownEvent(loc.x, loc.y)
-      dragging = polygon
+      draggingPolygon = polygon
       draggingOffsetX = loc.x - polygon.x
       draggingOffsetY = loc.y - polygon.y
       return
@@ -103,16 +93,18 @@ canvas.onmousemove = e => {
   e.preventDefault()
   e.stopPropagation()
 
-  if (editing && dragging) {
-    dragging.x = loc.x - draggingOffsetX
-    dragging.y = loc.y - draggingOffsetY
+  if (!dragging) { return }
+
+  if (editing) {
+    draggingPolygon.x = loc.x - draggingOffsetX
+    draggingPolygon.y = loc.y - draggingOffsetY
 
     paint.clear()
     drawGrid(paint.context)
     drawPolygons()
   }
   else {
-    dragging && paint.mousemoveEvent(loc.x, loc.y, draw)
+    paint.mousemoveEvent(loc.x, loc.y, draw)
   }
 }
 
@@ -133,15 +125,4 @@ eraseAllButton.onclick = () => {
   paint.clear()
   drawGrid(paint.context)
   paint.saveDrawingSurface()
-}
-
-strokeStyleSelect.onchange = () => paint.updateStrokeStyle(strokeStyleSelect.value)
-fillStyleSelect.onchange = () => paint.updateFillStyle(fillStyleSelect.value)
-fillCheckbox.onchange = () => paint.updateFilled(fillCheckbox.checked)
-
-sidesSelect.onchange = () => {
-  sides = Number(sidesSelect.value)
-}
-startAngleSelect.onchange = () => {
-  startAngle = getStartAngle(startAngleSelect.value)
 }

@@ -16,12 +16,16 @@ class Point {
 }
 
 class Polygon {
-  constructor(centerX, centerY, radius, sides, startAngle) {
+  constructor(centerX, centerY, radius, sides, startAngle, strokeStyle, fillStyle, stroked, filled) {
     this.x = centerX
     this.y = centerY
     this.radius = radius
     this.sides = sides
     this.startAngle = startAngle
+    this.strokeStyle = strokeStyle
+    this.fillStyle = fillStyle
+    this.stroked = stroked
+    this.filled = filled
   }
 
   getPoint() {
@@ -53,7 +57,17 @@ class Polygon {
   }
 
   draw(context) {
+    context.save()
+
     this.createPath(context)
+
+    context.strokeStyle = this.strokeStyle
+    context.fillStyle = this.fillStyle
+
+    this.stroked && context.stroke()
+    this.filled && context.fill()
+
+    context.restore()
   }
 
   move(x, y) {

@@ -9,7 +9,7 @@
  * @ModifierDescription:
  */
 class Paint {
-  constructor(canvas, strokeStyle, fillStyle, stroked, filled, guidewired = true, guidewiresStrokeStyle = 'rgba(0,0,230,0.4)', guidewiresLineWidth = 0.5) {
+  constructor(canvas, guidewired = true, guidewiresStrokeStyle = 'rgba(0,0,230,0.4)', guidewiresLineWidth = 0.5) {
     this.canvas = canvas
     this.context = canvas.getContext('2d')
     this.width = canvas.width
@@ -26,11 +26,6 @@ class Paint {
       left: 0,
       top: 0
     }
-
-    this.strokeStyle = strokeStyle
-    this.fillStyle = fillStyle
-    this.stroked = stroked
-    this.filled = filled
 
     this.guidewired = guidewired
     this.guidewiresStrokeStyle = guidewiresStrokeStyle
@@ -52,23 +47,9 @@ class Paint {
     this.rubberbandRect.top = y > this.mousedown.y ? this.mousedown.y : y
   }
 
-  drawRubberbandShape(draw) {
-    this.context.save()
-
-    draw && draw()
-
-    this.context.strokeStyle = this.strokeStyle
-    this.context.fillStyle = this.fillStyle
-
-    this.stroked && this.context.stroke()
-    this.filled && this.context.fill()
-
-    this.context.restore()
-  }
-
   updateRubberband(x, y, draw) {
     this.updateRubberbandRectangle(x, y)
-    this.drawRubberbandShape(draw)
+    draw && draw()
   }
 
   drawHorizontalLine(y) {
@@ -106,22 +87,6 @@ class Paint {
   updateMousedown(x, y) {
     this.mousedown.x = x
     this.mousedown.y = y
-  }
-
-  updateStrokeStyle(val) {
-    this.strokeStyle = val
-  }
-
-  updateFillStyle(val) {
-    this.fillStyle = val
-  }
-
-  updateStroked(val) {
-    this.stroked = val
-  }
-
-  updateFilled(val) {
-    this.filled = val
   }
 
   updateGuidewired(val) {

@@ -24,17 +24,18 @@ const getStartAngle = val => {
 
 let dragging = false
 let guidewired = true
-let sides = Number(sidesSelect.value)
-let startAngle = getStartAngle(startAngleSelect.value)
-
 
 const draw = () => {
   const polygon = new Polygon(
     paint.mousedown.x,
     paint.mousedown.y,
     paint.rubberbandRect.width,
-    sides,
-    startAngle
+    Number(sidesSelect.value),
+    Math.PI / 180 * Number(startAngleSelect.value),
+    strokeStyleSelect.value,
+    fillStyleSelect.value,
+    true,
+    fillCheckbox.checked
   )
 
   polygon.draw(paint.context)
@@ -42,10 +43,6 @@ const draw = () => {
 
 const paint = new Paint(
   canvas,
-  strokeStyleSelect.value,
-  fillStyleSelect.value,
-  true,
-  fillCheckbox.checked,
   guidewired
 )
 
@@ -61,10 +58,3 @@ eraseAllButton.onclick = () => {
 strokeStyleSelect.onchange = () => paint.updateStrokeStyle(strokeStyleSelect.value)
 fillStyleSelect.onchange = () => paint.updateFillStyle(fillStyleSelect.value)
 fillCheckbox.onchange = () => paint.updateFilled(fillCheckbox.checked)
-
-sidesSelect.onchange = () => {
-  sides = Number(sidesSelect.value)
-}
-startAngleSelect.onchange = () => {
-  startAngle = getStartAngle(startAngleSelect.value)
-}
