@@ -31,12 +31,12 @@ class Polygon {
   getPoint() {
     const points = []
     const delta = 2 * Math.PI / this.sides
-    let startAngle = this.startAngle
+    let angle = this.startAngle
 
     for (let i = 0; i < this.sides; i++) {
-      points.push(new Point(this.x + this.radius * Math.cos(startAngle), this.y - this.radius * Math.sin(startAngle)))
+      points.push(new Point(this.x + this.radius * Math.sin(angle), this.y - this.radius * Math.cos(angle)))
 
-      startAngle += delta
+      angle += delta
     }
 
     return points
@@ -56,18 +56,34 @@ class Polygon {
     context.closePath()
   }
 
-  draw(context) {
+  draw(context, isTranslate, angle, strokeStyle, fillStyle) {
+    const tx = this.x
+    const ty = this.y
+
     context.save()
+
+    if (isTranslate) {
+      context.translate(tx, ty)
+      this.x = 0
+      this.y = 0
+    }
+
+    angle && context.rotate(angle)
 
     this.createPath(context)
 
-    context.strokeStyle = this.strokeStyle
-    context.fillStyle = this.fillStyle
+    context.strokeStyle = strokeStyle || this.strokeStyle
+    context.fillStyle = fillStyle || this.fillStyle
 
     this.stroked && context.stroke()
     this.filled && context.fill()
 
     context.restore()
+
+    if (isTranslate) {
+      this.x = tx
+      this.y = ty
+    }
   }
 
   move(x, y) {

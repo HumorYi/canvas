@@ -57,6 +57,21 @@ const draw = () => {
 
 const drawPolygons = () => polygons.forEach(polygon => polygon.draw(paint.context))
 
+const getSelectedPolygon = (x, y) => {
+  for (let i = 0, len = polygons.length; i < len; ++i) {
+    let polygon = polygons[i]
+    polygon.createPath(paint.context)
+
+    if (paint.context.isPointInPath(x, y)) {
+      paint.mousedownEvent(x, y)
+      draggingOffsetX = x - polygon.x
+      draggingOffsetY = y - polygon.y
+
+      return polygon
+    }
+  }
+}
+
 const paint = new Paint(
   canvas,
   guidewired
@@ -75,16 +90,7 @@ canvas.onmousedown = e => {
     return paint.mousedownEvent(loc.x, loc.y)
   }
 
-  polygons.forEach(polygon => {
-    polygon.createPath(paint.context)
-    if (paint.context.isPointInPath(loc.x, loc.y)) {
-      paint.mousedownEvent(loc.x, loc.y)
-      draggingPolygon = polygon
-      draggingOffsetX = loc.x - polygon.x
-      draggingOffsetY = loc.y - polygon.y
-      return
-    }
-  })
+  draggingPolygon = getSelectedPolygon(loc.x, loc.y)
 }
 
 canvas.onmousemove = e => {

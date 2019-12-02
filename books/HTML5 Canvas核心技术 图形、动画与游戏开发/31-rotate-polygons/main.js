@@ -2,7 +2,7 @@
  * @Author: Bamboo
  * @AuthorEmail: bamboo8493@126.com
  * @AuthorDate: Do not edit
- * @AuthorDescription: 入口文件 TODO: ·未开始
+ * @AuthorDescription: 入口文件
  * @Modifier:
  * @ModifierEmail:
  * @ModifierDate: Do not edit
@@ -18,32 +18,77 @@ const fillCheckbox = document.getElementById('fillCheckbox')
 const editCheckbox = document.getElementById('editCheckbox')
 const sidesSelect = document.getElementById('sidesSelect')
 
-const GRID_STROKE_STYLE = 'lightblue'
-const GRID_SPACING = 10
+const polygons = []
 
 let editing = false
 let dragging = false
-let draggingOffsetX = 0
-let draggingOffsetY = 0
-let draggingPoint = null
-let showInstructions = true
+let rotatingLockEngaged = false
+let rotatingLockAngle = 0
+let polygonRotating = null
+let dial = null
 
 const paint = new Paint(
   canvas,
-  guidewireCheckbox.checked
+  true
 )
 
-const updateDraggingPoint = (x, y) => {
-  draggingPoint.x = x
-  draggingPoint.y = y
-}
+const drawPolygons = () => polygons.forEach(polygon => polygon.draw(paint.context))
 
-const bezierCurves = new BezierCurves()
+const stopRotatingPolygon = () => {
+  polygonRotating = null
+  rotatingLockEngaged = false
+  rotatingLockAngle = 0
+}
 
 const draw = () => {
-  bezierCurves.updateEndAndControlPoints(paint.rubberbandRect)
-  bezierCurves.drawBezierCurve(paint.context, strokeStyleSelect.value)
+  const polygon = new Polygon(
+    paint.mousedown.x,
+    paint.mousedown.y,
+    paint.rubberbandRect.width,
+    Number(sidesSelect.value),
+    Math.PI / 180 * Number(startAngleSelect.value),
+    strokeStyleSelect.value,
+    fillStyleSelect.value,
+    true,
+    fillCheckbox.checked
+  )
+
+  polygon.draw(paint.context)
+
+  !dragging && polygons.push(polygon)
 }
+
+const redraw = () => {
+  paint.clear()
+  drawGrid(paint.context)
+  drawPolygons()
+}
+
+const getSelectedPolygon = (x, y) => {
+  for (let i = 0, len = polygons.length; i < len; ++i) {
+    let polygon = polygons[i]
+    polygon.createPath(paint.context)
+
+    if (paint.context.isPointInPath(x, y)) {
+      paint.mousedownEvent(x, y)
+      return polygon
+    }
+  }
+}
+
+const startEditing = () => {
+  canvas.style.cursor = 'pointer'
+  editing = true
+}
+
+const stopEditing = () => {
+  canvas.style.cursor = 'crosshair'
+  editing = false
+  stopRotatingPolygon()
+  redraw()
+}
+
+const getAngle = (x, y, polygon) => Math.atan((y - polygon.y) / (x - polygon.x))
 
 canvas.onmousedown = e => {
   const loc = windowToCanvas(canvas, e.clientX, e.clientY)
@@ -53,38 +98,46 @@ canvas.onmousedown = e => {
 
   if (!editing) {
     paint.mousedownEvent(loc.x, loc.y)
-    paint.updateRubberbandRectangle(loc.x, loc.y)
     dragging = true
     return
   }
 
-  draggingPoint =
-    bezierCurves.cursorInControlPoint(paint.context, loc.x, loc.y)
-    || bezierCurves.cursorInEndPoint(paint.context, loc.x, loc.y)
+  if (polygonRotating) {
+    stopRotatingPolygon()
+    redraw()
+  }
+
+  polygonRotating = getSelectedPolygon(loc.x, loc.y)
+
+  if (polygonRotating) {
+    dial = new Dial(canvas)
+    dial.draw(polygonRotating, loc.x, loc.y, rotatingLockAngle)
+
+    if (!rotatingLockEngaged) {
+      rotatingLockEngaged = true
+      rotatingLockAngle = getAngle(loc.x, loc.y, polygonRotating)
+    }
+  }
 }
 
 canvas.onmousemove = e => {
   const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+  let angle = 0
 
   e.preventDefault()
   e.stopPropagation()
 
-  if (dragging || draggingPoint) {
-    paint.restoreDrawingSurface()
-    paint.drawGuidewires(loc.x, loc.y)
+  if (rotatingLockEngaged) {
+    angle = getAngle(loc.x, loc.y, polygonRotating) - rotatingLockAngle
 
-    if (dragging) {
-      paint.updateRubberband(loc.x, loc.y, draw)
-      bezierCurves.drawControlAndEndPoints(paint.context)
+    redraw()
 
-      return
-    }
+    polygonRotating.draw(paint.context, true, angle, 'rgba(100, 140, 230, 0.9)', 'rgba(100, 140, 230, 0.3)')
 
-    if (draggingPoint) {
-      updateDraggingPoint(loc.x, loc.y)
-      bezierCurves.drawControlAndEndPoints(paint.context)
-      bezierCurves.drawBezierCurve(paint.context, strokeStyleSelect.value)
-    }
+    dial.draw(polygonRotating, loc.x, loc.y, angle)
+  }
+  else if (dragging) {
+    paint.mousemoveEvent(loc.x, loc.y, draw)
   }
 }
 
@@ -94,48 +147,19 @@ canvas.onmouseup = e => {
   e.preventDefault()
   e.stopPropagation()
 
-  paint.restoreDrawingSurface()
+  dragging = false
 
   if (!editing) {
-    paint.updateRubberband(loc.x, loc.y, draw)
-    bezierCurves.drawControlAndEndPoints(paint.context)
-
-    dragging = false
-    editing = true
-
-    if (showInstructions) {
-      instructions.style.display = 'inline'
-    }
-
-    return
+    paint.mouseupEvent(loc.x, loc.y, draw)
   }
-
-  if (draggingPoint) {
-    bezierCurves.drawControlAndEndPoints(paint.context)
-  }
-  else {
-    editing = false
-  }
-
-  bezierCurves.drawBezierCurve(paint.context, strokeStyleSelect.value)
-  draggingPoint = null
 }
 
 eraseAllButton.onclick = () => {
   paint.clear()
-  drawGrid(paint.context, GRID_STROKE_STYLE, GRID_SPACING)
+  drawGrid(paint.context)
   paint.saveDrawingSurface()
 }
 
-guidewireCheckbox.onchange = () => paint.updateGuidewired(guidewireCheckbox.checked)
+editCheckbox.onchange = () => editCheckbox.checked ? startEditing() : stopEditing()
 
-instructionsOkayButton.onclick = () => {
-  instructions.style.display = 'none'
-}
-
-instructionsNoMoreButton.onclick = () => {
-  instructions.style.display = 'none'
-  showInstructions = false
-}
-
-drawGrid(paint.context, GRID_STROKE_STYLE, GRID_SPACING)
+drawGrid(paint.context)
