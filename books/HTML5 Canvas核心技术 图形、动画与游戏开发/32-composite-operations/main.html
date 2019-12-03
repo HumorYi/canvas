@@ -1,0 +1,46 @@
+<!--
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件：图像合成模式
+ *  page - 124
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Canvas Composite Operations</title>
+  <link rel="stylesheet" href="./main.css" />
+</head>
+
+<body>
+  <select id='compositingSelect' size='11'>
+    <option value='source-atop'>source-atop</option>
+    <option value='source-in'>source-in</option>
+    <option value='source-out'>source-out</option>
+    <option value='source-over'>source-over (default)</option>
+    <option value='destination-atop'>destination-atop</option>
+    <option value='destination-in'>destination-in</option>
+    <option value='destination-out'>destination-out</option>
+    <option value='destination-over'>destination-over</option>
+    <option value='lighter'>lighter</option>
+    <option value='copy'>copy</option>
+    <option value='xor'>xor</option>
+  </select>
+
+  <canvas id='canvas' width='600' height='420'>
+    Canvas not supported
+  </canvas>
+
+  <script src="../util/index.js"></script>
+  <script src="./main.js"></script>
+</body>
+
+</html>

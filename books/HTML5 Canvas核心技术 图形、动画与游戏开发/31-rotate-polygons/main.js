@@ -26,10 +26,7 @@ let rotatingLockAngle = 0
 let polygonRotating = null
 let dial = null
 
-const paint = new Paint(
-  canvas,
-  true
-)
+const paint = new Paint(canvas)
 
 const drawPolygons = () => polygons.forEach(polygon => polygon.draw(paint.context))
 

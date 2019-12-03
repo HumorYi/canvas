@@ -21,8 +21,8 @@ class Paint {
       y: 0
     }
     this.rubberbandRect = {
-      x: 0,
-      y: 0,
+      width: 0,
+      height: 0,
       left: 0,
       top: 0
     }
@@ -49,7 +49,7 @@ class Paint {
 
   updateRubberband(x, y, draw) {
     this.updateRubberbandRectangle(x, y)
-    draw && draw()
+    draw && draw(x, y)
   }
 
   drawHorizontalLine(y) {
@@ -113,7 +113,8 @@ class Paint {
   mousemoveEvent(x, y, draw) {
     this.restoreDrawingSurface()
     this.updateRubberband(x, y, draw)
-    this.drawGuidewires(this.mousedown.x, this.mousedown.y)
+    // this.drawGuidewires(this.mousedown.x, this.mousedown.y)
+    this.drawGuidewires(x, y)
   }
 
   mouseupEvent(x, y, draw) {

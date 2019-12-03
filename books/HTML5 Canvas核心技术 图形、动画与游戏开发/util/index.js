@@ -50,3 +50,31 @@ const windowToCanvas = (canvas, x, y) => {
     y: y - bbox.top * (canvas.height / bbox.height)
   }
 }
+
+const drawText = (
+  context,
+  text,
+  x,
+  y,
+  strokeStyle = 'yellow',
+  fillStyle = 'cornflowerblue',
+  shadowColor = 'rgba(100, 100, 150, 0.8)',
+  shadowBlur = 10,
+  shadowOffsetX = 5,
+  shadowOffsetY = shadowOffsetX
+) => {
+  context.save()
+
+  context.shadowColor = shadowColor
+  context.shadowOffsetX = shadowOffsetX
+  context.shadowOffsetY = shadowOffsetY
+  context.shadowBlur = shadowBlur
+
+  context.strokeStyle = strokeStyle
+  context.fillStyle = fillStyle
+
+  context.strokeText(text, x, y)
+  context.fillText(text, x, y)
+
+  context.restore()
+}

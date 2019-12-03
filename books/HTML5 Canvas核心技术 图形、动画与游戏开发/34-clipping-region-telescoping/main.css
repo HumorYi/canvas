@@ -1,0 +1,20 @@
+/*
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+ */
+#canvas {
+  margin-left: 10px;
+  margin-top: 10px;
+  border: 1px solid cornflowerblue;
+  background: #eeeeee;
+  border: thin solid #aaaaaa;
+  -webkit-box-shadow: rgba(200, 200, 255, 0.9) 5px 5px 10px;
+  -moz-box-shadow: rgba(200, 200, 255, 0.9) 5px 5px 10px;
+  box-shadow: rgba(200, 200, 255, 0.9) 5px 5px 10px;
+}
