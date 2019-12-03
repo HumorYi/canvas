@@ -94,9 +94,9 @@ class Dial {
 
   /**
    * 画仪表盘指针
+   * @param {object} polygon 图形对象
    * @param {number} x x坐标
    * @param {number} y y坐标
-   * @param {object} polygon 图形对象
    * @param {number} angle 中心点旋转角度
    * @param {number} radius 中心点半径
    * @return: void

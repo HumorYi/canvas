@@ -18,8 +18,7 @@ const fillCheckbox = document.getElementById('fillCheckbox')
 const editCheckbox = document.getElementById('editCheckbox')
 const sidesSelect = document.getElementById('sidesSelect')
 
-const polygons = []
-
+let polygons = []
 let editing = false
 let dragging = false
 let rotatingLockEngaged = false
@@ -149,12 +148,20 @@ canvas.onmouseup = e => {
 
   dragging = false
 
-  if (!editing) {
-    paint.mouseupEvent(loc.x, loc.y, draw)
-  }
+  !editing && paint.mouseupEvent(loc.x, loc.y, draw)
 }
 
 eraseAllButton.onclick = () => {
+  polygons = []
+  editing = false
+  dragging = false
+  rotatingLockEngaged = false
+  rotatingLockAngle = 0
+  polygonRotating = null
+  dial = null
+
+  editCheckbox.checked = false
+
   paint.clear()
   drawGrid(paint.context)
   paint.saveDrawingSurface()
