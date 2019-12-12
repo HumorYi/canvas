@@ -29,71 +29,17 @@ const TICKS_COLOR = 'navy'
 const AXIS_LINEWIDTH = 1.0
 const AXIS_COLOR = 'blue'
 
-const drawHorizontalAxis = () => {
-  context.beginPath()
-  context.moveTo(AXIS_ORIGIN.x, AXIS_ORIGIN.y)
-  context.lineTo(AXIS_RIGHT, AXIS_ORIGIN.y)
-  context.stroke()
-}
-
-const drawVerticalAxis = () => {
-  context.beginPath()
-  context.moveTo(AXIS_ORIGIN.x, AXIS_ORIGIN.y)
-  context.lineTo(AXIS_ORIGIN.x, AXIS_TOP)
-  context.stroke()
-}
-
-const drawHorizontalAxisTicks = () => {
-  let deltaY
-  let x
-
-  for (let i = 1; i < NUM_HORIZONTAL_TICKS; i++) {
-    context.beginPath()
-
-    deltaY = i % 5 === 0 ? TICK_WIDTH : TICK_WIDTH / 2
-    x = AXIS_ORIGIN.x + i * HORIZONTAL_TICK_SPACING
-
-    context.moveTo(x, AXIS_ORIGIN.y - deltaY)
-    context.lineTo(x, AXIS_ORIGIN.y + deltaY)
-
-    context.stroke()
-  }
-}
-
-const drawVerticalAxisTicks = () => {
-  let deltaX
-  let y
-
-  for (let i = 1; i < NUM_VERTICAL_TICKS; i++) {
-    context.beginPath()
-
-    deltaX = i % 5 === 0 ? TICK_WIDTH : TICK_WIDTH / 2
-    y = AXIS_ORIGIN.y - i * VERTICAL_TICK_SPACING
-
-    context.moveTo(AXIS_ORIGIN.x - deltaX, y)
-    context.lineTo(AXIS_ORIGIN.x + deltaX, y)
-
-    context.stroke()
-  }
-}
-
-const drawAxes = () => {
-  context.save()
-
-  context.strokeStyle = AXIS_COLOR
-  context.lineWidth = AXIS_LINEWIDTH
-
-  drawHorizontalAxis()
-  drawVerticalAxis()
-
-  context.lineWidth = TICKS_LINEWIDTH
-  context.strokeStyle = TICKS_COLOR
-
-  drawHorizontalAxisTicks()
-  drawVerticalAxisTicks()
-
-  context.restore()
-}
-
 drawGrid(context)
-drawAxes()
+drawAxes(
+  context,
+  AXIS_COLOR,
+  AXIS_LINEWIDTH,
+  TICKS_LINEWIDTH,
+  TICKS_COLOR, AXIS_ORIGIN,
+  AXIS_RIGHT, AXIS_TOP,
+  NUM_HORIZONTAL_TICKS,
+  NUM_VERTICAL_TICKS,
+  TICK_WIDTH,
+  HORIZONTAL_TICK_SPACING,
+  VERTICAL_TICK_SPACING
+)
