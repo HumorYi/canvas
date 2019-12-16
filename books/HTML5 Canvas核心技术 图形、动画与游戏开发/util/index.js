@@ -336,3 +336,59 @@ const drawCircularText = (
   context.restore()
 }
 /* 画圆形文本 E */
+
+/* 画背景色 S */
+
+
+const drawBackground = (
+  context,
+  width,
+  height,
+  horizontal_strokeStyle = 'lightgray',
+  horizontal_lineWidth = 0.5,
+  vertical_strokeStyle = 'rgba(100, 0, 0, 0.3)',
+  vertical_lineWidth = 1
+) => {
+  const STEP_Y = 12
+  const TOP_MARGIN = STEP_Y * 4
+  const LEFT_MARGIN = STEP_Y * 3
+  let i = height
+
+  context.clearRect(0, 0, width, height)
+
+  // Horizontal lines
+
+  context.save()
+
+  context.strokeStyle = horizontal_strokeStyle
+  context.lineWidth = horizontal_lineWidth
+
+  while (i > TOP_MARGIN) {
+    context.beginPath()
+
+    context.moveTo(0, i)
+    context.lineTo(width, i)
+
+    context.stroke()
+
+    i -= STEP_Y
+  }
+
+  context.restore()
+
+  // Vertical line
+
+  context.save()
+
+  context.strokeStyle = vertical_strokeStyle
+  context.lineWidth = vertical_lineWidth
+
+  context.beginPath()
+
+  context.moveTo(LEFT_MARGIN, 0)
+  context.lineTo(LEFT_MARGIN, height)
+  context.stroke()
+
+  context.restore()
+}
+/* 画背景色 E */

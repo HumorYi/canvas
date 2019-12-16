@@ -41,40 +41,7 @@ const DELTA_Y = 50
 const TOP_Y = 50
 let y = 0
 
-
-const drawBackground = () => {
-  const STEP_Y = 12
-  let i = height
-
-  context.strokeStyle = 'rgba(0,0,200,0.225)'
-  context.lineWidth = 0.5
-
-  context.save()
-  context.restore()
-
-  while (i > STEP_Y * 4) {
-    context.beginPath()
-    context.moveTo(0, i)
-    context.lineTo(width, i)
-    context.stroke()
-    i -= STEP_Y
-  }
-
-  context.save()
-
-  context.strokeStyle = 'rgba(100,0,0,0.3)'
-  context.lineWidth = 1
-
-  context.beginPath()
-
-  context.moveTo(35, 0)
-  context.lineTo(35, height)
-  context.stroke()
-
-  context.restore()
-}
-
-drawBackground()
+drawBackground(context, width, height)
 
 context.fillStyle = 'blue'
 

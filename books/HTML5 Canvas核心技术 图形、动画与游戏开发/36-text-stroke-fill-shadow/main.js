@@ -21,45 +21,11 @@ const text = 'HTML5'
 const draw = () => {
   context.clearRect(0, 0, width, height)
 
-  drawBackground()
+  drawBackground(context, width, height)
 
   shadowCheckbox.checked ? turnShadowsOn() : turnShadowsOff()
 
-  drawText()
-}
-
-const drawBackground = () => {
-  const STEP_Y = 12
-  const TOP_MARGIN = STEP_Y * 4
-  const LEFT_MARGIN = STEP_Y * 3
-  let i = height
-
-  // Horizontal lines
-
-  context.strokeStyle = 'lightgray'
-  context.lineWidth = 0.5
-
-  while (i > TOP_MARGIN) {
-    context.beginPath()
-
-    context.moveTo(0, i)
-    context.lineTo(width, i)
-
-    context.stroke()
-
-    i -= STEP_Y
-  }
-
-  // Vertical line
-
-  context.strokeStyle = 'rgba(100,0,0,0.3)'
-  context.lineWidth = 1
-
-  context.beginPath()
-
-  context.moveTo(LEFT_MARGIN, 0)
-  context.lineTo(LEFT_MARGIN, height)
-  context.stroke()
+  ownDrawText()
 }
 
 const turnShadowsOn = () => {
@@ -76,7 +42,7 @@ const turnShadowsOff = () => {
   context.shadowBlur = 0
 }
 
-const drawText = () => {
+const ownDrawText = () => {
   const TEXT_X = 65
   const TEXT_Y = height / 2 + 35
 

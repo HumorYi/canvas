@@ -5,7 +5,7 @@
  * @Description: 入口文件
  * @LastEditors:
  * @LastEditorsEmail:
- * @LastEditTime: 2019-11-24 21:08:59
+ * @LastEditTime: 2019-12-17 01:24:40
  * @LastEditorsDescription:
  */
 const canvas = document.getElementById('canvas')
@@ -32,25 +32,7 @@ class SpriteSheetsViewer {
       this.drawSpriteSheet()
     }
 
-    this.drawBackground()
-  }
-
-  drawBackground() {
-    const VERTICAL_LINE_SPACING = 12
-    let i = this.context.canvas.height
-
-    this.context.clearRect(0, 0, this.width, this.height)
-    this.context.strokeStyle = 'lightgray'
-    this.context.lineWidth = 0.5
-
-    while (i > VERTICAL_LINE_SPACING) {
-      this.context.beginPath()
-      this.context.moveTo(0, i)
-      this.context.lineTo(this.context.canvas.width, i)
-      this.context.stroke()
-
-      i -= VERTICAL_LINE_SPACING
-    }
+    drawBackground(this.context, this.width, this.height)
   }
 
   drawSpriteSheet() {
@@ -80,7 +62,7 @@ class SpriteSheetsViewer {
   }
 
   draw(x, y) {
-    this.drawBackground()
+    drawBackground(this.context, this.width, this.height)
     this.drawSpriteSheet()
     this.drawGuidelines(x, y)
   }
