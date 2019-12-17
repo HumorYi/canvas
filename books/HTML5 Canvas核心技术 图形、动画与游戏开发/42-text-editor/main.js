@@ -33,24 +33,24 @@ const setFont = () => {
 
 canvas.onmousedown = e => {
   let loc = windowToCanvas(canvas, e.clientX, e.clientY)
-  let fontHeight
 
   cursor.erase(context, drawingSurfaceImageData)
   saveDrawingSurface()
 
-  if (paragraph && paragraph.isPointInside(loc)) {
+  if (paragraph && paragraph.isPointInside(loc.x, loc.y)) {
     paragraph.moveCursorCloseTo(loc.x, loc.y)
   }
   else {
-    fontHeight = context.measureText('W').width,
-      fontHeight += fontHeight / 6
-
-    paragraph = new Paragraph(context, loc.x, loc.y - fontHeight,
+    paragraph = new Paragraph(
+      context,
+      loc.x, loc.y - cursor.getHeight(context),
       drawingSurfaceImageData,
-      cursor)
+      cursor
+    )
 
     paragraph.addLine(new TextLine(loc.x, loc.y))
   }
+
 }
 
 fillStyleSelect.onchange = () => {
@@ -80,7 +80,7 @@ document.onkeydown = e => {
 }
 
 document.onkeypress = e => {
-  let key = String.fromCharCode(e.which)
+  let key = String.fromCharCode(e.keyCode)
 
   // Only process if user is editing text
   // and they aren't holding down the CTRL

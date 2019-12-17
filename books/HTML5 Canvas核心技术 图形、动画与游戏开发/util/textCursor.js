@@ -6,7 +6,7 @@
  * @ModifierEmail:
  * @ModifierDescription:
  * @Date: 2019-12-17 00:40:15
- * @LastEditTime: 2019-12-17 01:29:42
+ * @LastEditTime : 2019-12-17 22:38:20
  */
 class TextCursor {
   constructor(fillStyle, width) {
@@ -41,7 +41,7 @@ class TextCursor {
   }
 
   erase(context, imageData) {
-    context.putImageData(
+    imageData && context.putImageData(
       imageData, 0, 0,
       this.left, this.top,
       this.width, this.getHeight(context)
@@ -118,19 +118,16 @@ class Paragraph {
     this.left = left
     this.top = top
     this.lines = []
-    this.activeLine = undefined
+    this.activeLine = null
     this.cursor = cursor
-    this.blinkingInterval = undefined
+    this.blinkingInterval = null
+    this.lastLine = null
   }
 
-  isPointInside(loc) {
-    let c = this.context
-
-    c.beginPath()
-    c.rect(this.left, this.top,
-      this.getWidth(), this.getHeight())
-
-    return c.isPointInPath(loc.x, loc.y)
+  isPointInside(x, y) {
+    this.context.beginPath()
+    this.context.rect(this.left, this.top, this.getWidth(), this.getHeight())
+    return this.context.isPointInPath(x, y)
   }
 
   getHeight() {
@@ -161,10 +158,6 @@ class Paragraph {
     this.lines.forEach(line => line.draw(this.context))
   }
 
-  erase(context, imageData) {
-    context.putImageData(imageData, 0, 0)
-  }
-
   addLine(line) {
     this.lines.push(line)
     this.activeLine = line
@@ -172,13 +165,10 @@ class Paragraph {
   }
 
   insert(text) {
-    this.erase(this.context, this.drawingSurface)
+    this.erase(this.drawingSurface)
     this.activeLine.insert(text)
 
-    let t = this.activeLine.text.substring(0, this.activeLine.caret)
-    let w = this.context.measureText(t).width
-
-    this.moveCursor(this.activeLine.left + w, this.activeLine.bottom)
+    this.moveCursor(this.activeLine.getCaretX(this.context), this.activeLine.bottom)
 
     this.draw(this.context)
   }
@@ -188,18 +178,23 @@ class Paragraph {
     let BLINK_INTERVAL = 900
 
     this.blinkingInterval = setInterval(() => {
-      cursor.erase(context, this.drawingSurface)
-      setTimeout(() => cursor.draw(context, cursor.left, cursor.top + cursor.getHeight(context)), BLINK_OUT)
+      cursor.erase(this.context, this.drawingSurface)
+      setTimeout(() => cursor.draw(this.context, cursor.left, cursor.top + cursor.getHeight(this.context)), BLINK_OUT)
     }, BLINK_INTERVAL)
+  }
+
+  erase(imageData) {
+    this.context.putImageData(imageData, 0, 0)
   }
 
   moveCursorCloseTo(x, y) {
     let line = this.getLine(y)
 
     if (line) {
+      this.lastLine = line
       line.caret = this.getColumn(line, x)
       this.activeLine = line
-      this.moveCursor(line.getCaretX(context), line.bottom)
+      this.moveCursor(line.getCaretX(this.context), line.bottom)
     }
   }
 
@@ -225,7 +220,7 @@ class Paragraph {
     let activeIndex
     let line
 
-    this.erase(this.context, this.drawingSurface)     // Erase paragraph
+    this.erase(this.drawingSurface)     // Erase paragraph
     this.activeLine.text = textBeforeCursor           // Set active line's text
 
     line = new TextLine(this.activeLine.left, bottom) // Create a new line
@@ -251,7 +246,7 @@ class Paragraph {
   getLine(y) {
     for (let i = 0; i < this.lines.length; ++i) {
       let line = this.lines[i]
-      if (y > line.bottom - line.getHeight(context) && y < line.bottom) {
+      if (y > line.bottom - line.getHeight(this.context) && y < line.bottom) {
         return line
       }
     }
@@ -259,7 +254,6 @@ class Paragraph {
 
   getColumn(line, x) {
     let tmpLine = new TextLine(line.left, line.bottom)
-    let found = false
     let before
     let after
     let closest
@@ -267,18 +261,17 @@ class Paragraph {
 
     tmpLine.insert(line.text)
 
-    while (!found && tmpLine.text.length > 0) {
-      before = tmpLine.left + tmpLine.getWidth(context)
+    while (tmpLine.text.length > 0) {
+      before = tmpLine.left + tmpLine.getWidth(this.context)
       tmpLine.removeLastCharacter()
-      after = tmpLine.left + tmpLine.getWidth(context)
+      after = tmpLine.left + tmpLine.getWidth(this.context)
 
       if (after < x) {
         closest = x - after < before - x ? after : before
         column = closest === before ? tmpLine.text.length + 1 : tmpLine.text.length
-        found = true
+        return column
       }
     }
-    return column
   }
 
   activeLineIsOutOfText() {
@@ -318,7 +311,7 @@ class Paragraph {
 
     if (this.activeLine.caret === 0) {
       if (!this.activeLineIsTopLine()) {
-        this.erase(this.context, this.drawingSurface)
+        this.erase(this.drawingSurface)
         this.moveUpOneLine()
         this.draw()
       }
@@ -327,7 +320,7 @@ class Paragraph {
       this.context.fillStyle = fillStyleSelect.value
       this.context.strokeStyle = strokeStyleSelect.value
 
-      this.erase(this.context, this.drawingSurface)
+      this.erase(this.drawingSurface)
       this.activeLine.removeCharacterBeforeCaret()
 
       t = this.activeLine.text.slice(0, this.activeLine.caret)
@@ -337,7 +330,7 @@ class Paragraph {
 
       this.draw(this.context)
 
-      context.restore()
+      this.context.restore()
     }
   }
 }
