@@ -1,0 +1,32 @@
+/*
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+ */
+body {
+  background-color: rgba(100, 145, 250, 0.3);
+}
+
+#canvas {
+  margin-left: 20px;
+  margin-right: 0;
+  margin-bottom: 20px;
+  border: thin solid #aaaaaa;
+  cursor: crosshair;
+  padding: 0;
+}
+
+#controls {
+  margin: 20px 0px 20px 20px;
+}
+
+a {
+  font: 18px Times Roman;
+  text-decoration: none;
+  margin-right: 15px;
+}

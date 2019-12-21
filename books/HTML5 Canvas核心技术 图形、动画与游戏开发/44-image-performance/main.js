@@ -17,18 +17,10 @@ const image = new Image()
 const sunglassButton = document.getElementById('sunglassButton')
 const sunglassFilter = new Worker('sunglassFilter.js')
 
-const reset = () => {
-  context.drawImage(
-    image, 0, 0,
-    image.width, image.height, 0, 0,
-    width, height
-  )
-}
+const reset = () => context.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
 
 const putSunglassesOn = () => {
-  sunglassFilter.postMessage(
-    context.getImageData(0, 0, canvas.width, canvas.height)
-  )
+  sunglassFilter.postMessage(context.getImageData(0, 0, width, height))
 
   sunglassFilter.onmessage = event => context.putImageData(event.data, 0, 0)
 }
@@ -36,4 +28,4 @@ const putSunglassesOn = () => {
 image.src = '../shared/images/curved-road.png'
 image.onload = reset
 
-sunglassButton.onclick = () => sunglassButton.checked ? putSunglassesOn() : reset()
+sunglassButton.onclick = () => (sunglassButton.checked ? putSunglassesOn() : reset())

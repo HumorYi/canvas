@@ -18,13 +18,7 @@ const negativeButton = document.getElementById('negativeButton')
 const blackAndWhite = document.getElementById('blackAndWhite')
 const embossButton = document.getElementById('embossButton')
 
-const reset = () => {
-  context.drawImage(
-    image, 0, 0,
-    image.width, image.height, 0, 0,
-    width, height
-  )
-}
+const reset = () => context.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
 
 // imagedata.data 有 红、绿、蓝、透明度 连续组成的一个 Uint8ClampedArray 数组
 
@@ -95,10 +89,11 @@ const drawFilterImage = {
           }
 
           // 不是行中的最后一个像素
-          data[i] = 255 / 2 // Average value
-            + 2 * data[i]   // current pixel
-            - data[i + 4]   // next pixel
-            - data[i + row] // pixel underneath
+          data[i] =
+            255 / 2 + // Average value
+            2 * data[i] - // current pixel
+            data[i + 4] - // next pixel
+            data[i + row] // pixel underneath
         }
 
         continue
@@ -118,5 +113,5 @@ image.src = '../shared/images/curved-road.png'
 image.onload = reset
 
 negativeButton.onclick = () => drawFilterImage.negative(context)
-blackAndWhite.onclick = () => blackAndWhite.checked ? drawFilterImage.blackAndWhite(context) : reset()
-embossButton.onclick = () => embossButton.checked ? drawFilterImage.emboss(context) : reset()
+blackAndWhite.onclick = () => (blackAndWhite.checked ? drawFilterImage.blackAndWhite(context) : reset())
+embossButton.onclick = () => (embossButton.checked ? drawFilterImage.emboss(context) : reset())
