@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>canvas - 放大镜</title>
+  <style>
+    #copycanvas {
+      border: 1px solid #000;
+      display: none;
+    }
+
+    #square {
+      width: 90px;
+      height: 90px;
+      background-color: #cc3;
+      border: 1px solid #f00;
+      opacity: 0.5;
+      position: absolute;
+      z-index: 999;
+      display: none;
+      cursor: crosshair;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="450" height="676"></canvas>
+  <canvas id="copycanvas" width="300" height="300"></canvas>
+  <div id="square"></div>
+  <script>
+    var canvas = document.getElementById('canvas'), //获取canvas对象
+      context = canvas.getContext('2d'),  //获取上下文
+      width = canvas.width,
+      height = canvas.height,
+      copycanvas = document.getElementById('copycanvas'),  //获取copycanvas
+      copycontext = copycanvas.getContext('2d'),
+      square = document.getElementById('square'),  //获取透明框
+      squaredata = {
+        width: 90,
+        height: 90
+      }, //用来保存选择框数据
+      box = canvas.getBoundingClientRect();
+    //getBoundingClientRect方法可以获取元素上、下、左、右分别相对浏览器的坐标位置
+    //创建图像对象，并加载
+    image = new Image();
+    image.src = "grand-canyon.png";
+    image.onload = function () {
+      context.drawImage(image, 0, 0, width, height);
+    };
+	
+    canvas.onmouseover = function (e) {
+      var x = e.clientX, //获取鼠标实时坐标
+        y = e.clientY;
+      createSquare(x, y); //保存透明选择框属性
+    };
+	
+    window.onmousemove = function (e) {
+      var x = e.clientX,
+        y = e.clientY;
+      //判断鼠标是否移出canvas
+      if (x >= canvas.offsetLeft && x <= canvas.offsetLeft + width &&
+        y >= canvas.offsetTop && y <= canvas.offsetTop + height) {
+        createSquare(x, y);
+      } else {
+        hideSquare();
+        hideCanvas();
+      }
+    }
+	
+    function showSquare() {
+      square.style.display = 'block';
+    }
+	
+    function hideSquare() {
+      square.style.display = 'none';
+    }
+	
+    function showCanvas() {
+      copycanvas.style.display = "inline";
+    }
+	
+    function hideCanvas() {
+      copycanvas.style.display = "none";
+    }
+	
+    function createSquare(x, y) {
+      //控制选择框不移动出canvas
+      x = x - squaredata.width / 2 < canvas.offsetLeft ? canvas.offsetLeft : x - squaredata.width / 2;
+      y = y - squaredata.height / 2 < canvas.offsetTop ? canvas.offsetTop : y - squaredata.height / 2;
+      x = x + squaredata.width < box.right ? x : box.right - squaredata.width;
+      y = y + squaredata.height < box.bottom ? y : box.bottom - squaredata.height;
+      squaredata.left = x;
+      squaredata.top = y;
+      moveSquare(x, y);
+    }
+	
+    function moveSquare(x, y) {
+      square.style.left = x + "px";
+      square.style.top = y + "px";
+      showCanvas();
+      showSquare();
+      copy();
+    }
+	
+    function copy() {
+      copycontext.drawImage(
+        canvas,
+        squaredata.left - box.left,
+        squaredata.top - box.top,
+        squaredata.width,
+        squaredata.height,
+        0,
+        0,
+        copycanvas.width,
+        copycanvas.height
+      );
+    }
+  </script>
+</body>

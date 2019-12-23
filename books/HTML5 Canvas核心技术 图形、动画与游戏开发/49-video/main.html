@@ -1,0 +1,40 @@
+<!--
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件：视频
+ *  page - 230
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>VIDEO</title>
+  <link rel="stylesheet" href="./main.css" />
+</head>
+
+<body>
+  <video id='video' controls src='https://www.w3school.com.cn/i/movie.ogg'></video>
+
+  <canvas id='canvas' width='480' height='260'>
+    Canvas not supported
+  </canvas>
+
+  <div id='controls' class='floatingControls'>
+    <input id='controlButton' type='button' value='Play' />
+    <input id='colorCheckbox' type='checkbox' checked> <span style='font-size:1.15em'>Color</span>
+    <input id='flipCheckbox' type='checkbox'> <span style='font-size:1.15em'>Flip</span>
+  </div>
+
+  <script src='../../shared/js/requestNextAnimationFrame.js'></script>
+  <script src="./main.js"></script>
+</body id='body'>
+
+</html>
