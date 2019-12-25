@@ -26,14 +26,14 @@ const colorCheckbox = document.getElementById('colorCheckbox')
 let imageData = null
 
 const removeColor = () => {
-  var data, average
+  let data, average
 
   imageData = offscreenContext.getImageData(0, 0, offscreenCanvas.width, offscreenCanvas.height)
 
   data = imageData.data
   width = data.width
 
-  for (i = 0; i < data.length - 4; i += 4) {
+  for (let i = 0; i < data.length - 4; i += 4) {
     average = (data[i] + data[i + 1] + data[i + 2]) / 3
     data[i] = average
     data[i + 1] = average

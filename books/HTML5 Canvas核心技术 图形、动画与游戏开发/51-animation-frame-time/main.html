@@ -1,0 +1,51 @@
+<!--
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件：基于时间的运动
+ *  page - 254
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Using requestAnimationFrame()</title>
+  <link rel="stylesheet" href="./main.css" />
+</head>
+
+<body>
+  <div id='controls'>
+    <div class='floatingControls' id='timeBasedMotionControls'>
+      <input type='checkbox' id='timeBasedMotionCheckbox' />Time-based Motion&nbsp;
+    </div>
+
+    <input type='button' id='topAnimateButton' value='Animate'
+      style='font-size: 0.75em; position: absolute; left: 670px; top: 70px; z-index: 2;' />
+
+    <input type='button' id='bottomAnimateButton' value='Animate'
+      style='font-size: 0.75em; position: absolute; left: 670px; top: 380px; z-index: 2;' />
+  </div>
+
+  <canvas id='topCanvas' class='canvas' width='750' height='300'>
+    Canvas not supported
+  </canvas>
+
+  <canvas id='bottomCanvas' class='canvas' width='750' height='300'>
+    Canvas not supported
+  </canvas>
+
+  <script src="../util/index.js"></script>
+  <script src='../shared/js/requestNextAnimationFrame.js'></script>
+  <script src="./main.js"></script>
+  <script src="./top.js"></script>
+  <script src="./bottom.js"></script>
+</body id='body'>
+
+</html>
