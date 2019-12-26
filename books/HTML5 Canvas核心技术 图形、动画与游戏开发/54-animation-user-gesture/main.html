@@ -1,0 +1,47 @@
+<!--
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件：用户动画
+ *  page - 264
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Magnifying Glass</title>
+  <link rel="stylesheet" href="./main.css" />
+</head>
+
+<body>
+  <div id='backdrop'>
+    <div id='controls'>
+      <span id='scaleOutput'>1.5</span>
+      <div id='magnificationSliderDiv' class='slider'></div>
+
+      <canvas id='glassSizeCanvas' width='40' height='40'>
+        Canvas not supported
+      </canvas>
+      <div id='glassSizeSliderDiv' class='slider'></div>
+
+    </div>
+
+    <canvas id='canvas' width='955' height='611'>
+      Canvas not supported
+    </canvas>
+  </div>
+
+  <script src="../util/index.js"></script>
+  <script src='../shared/js/roundedRectangle.js'></script>
+  <script src='../shared/js/slider.js'></script>
+  <script src="./main.js"></script>
+</body id='body'>
+
+</html>

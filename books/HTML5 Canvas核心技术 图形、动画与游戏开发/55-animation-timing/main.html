@@ -1,0 +1,40 @@
+<!--
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件：定时动画
+ *  page - 264
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>A One Minute Stopwatch</title>
+  <link rel="stylesheet" href="./main.css" />
+</head>
+
+<body>
+  <canvas id='canvas' width='750' height='600'>
+    Canvas not supported
+  </canvas>
+
+  <div id='controls'>
+    Seconds (0-60): <input id='seconds' type='text' value='10' size='4' />
+    <input id='startStopButton' type='button' value='Start' />
+  </div>
+
+  <script src="../util/index.js"></script>
+  <script src="../util/dial.js"></script>
+  <script src='../shared/js/requestNextAnimationFrame.js'></script>
+  <script src='../shared/js/stopwatch.js'></script>
+  <script src="./main.js"></script>
+</body id='body'>
+
+</html>

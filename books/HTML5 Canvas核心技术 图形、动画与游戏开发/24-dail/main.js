@@ -15,6 +15,6 @@ const polygon = {
   y: canvas.height / 2,
   radius: 150
 }
-const dial = new Dial(canvas, polygon)
+const dial = new Dial(canvas)
 drawGrid(dial.context)
 dial.draw(polygon)
