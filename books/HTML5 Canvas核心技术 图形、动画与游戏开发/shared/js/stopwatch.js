@@ -4,7 +4,7 @@
  *
  * License:
  *
- * Permission is hereby granted, free of charge, to any person 
+ * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation files
  * (the "Software"), to deal in the Software without restriction,
  * including without limitation the rights to use, copy, modify, merge,
@@ -27,7 +27,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
-*/
+ */
 
 // Stopwatch..................................................................
 //
@@ -38,42 +38,40 @@
 //
 // Stopwatches are used primarily for timing animations.
 
-Stopwatch = function ()  {
-};
+Stopwatch = function() {}
 
 // You can get the elapsed time while the timer is running, or after it's
 // stopped.
 
 Stopwatch.prototype = {
-   startTime: 0,
-   running: false,
-   elapsed: undefined,
+  startTime: 0,
+  running: false,
+  elapsed: undefined,
 
-   start: function () {
-      this.startTime = +new Date();
-      this.elapsedTime = undefined;
-      this.running = true;
-   },
+  start: function() {
+    this.startTime = +new Date()
+    this.elapsedTime = undefined
+    this.running = true
+  },
 
-   stop: function () {
-      this.elapsed = (+new Date()) - this.startTime;
-      this.running = false;
-   },
+  stop: function() {
+    this.elapsed = +new Date() - this.startTime
+    this.running = false
+  },
 
-   getElapsedTime: function () {
-      if (this.running) {
-         return (+new Date()) - this.startTime;
-      }
-      else {
-        return this.elapsed;
-      }
-   },
+  getElapsedTime: function() {
+    if (this.running) {
+      return +new Date() - this.startTime
+    } else {
+      return this.elapsed
+    }
+  },
 
-   isRunning: function() {
-      return this.running;
-   },
+  isRunning: function() {
+    return this.running
+  },
 
-   reset: function() {
-     this.elapsed = 0;
-   }
-};
+  reset: function() {
+    this.elapsed = 0
+  }
+}

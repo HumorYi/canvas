@@ -4,7 +4,7 @@
  *
  * License:
  *
- * Permission is hereby granted, free of charge, to any person 
+ * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation files
  * (the "Software"), to deal in the Software without restriction,
  * including without limitation the rights to use, copy, modify, merge,
@@ -27,7 +27,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
-*/
+ */
 
 // AnimationTimer..................................................................
 //
@@ -41,87 +41,86 @@
 // completed for the animation. That warping lets you do easily incorporate
 // non-linear motion, such as: ease-in, ease-out, elastic, etc.
 
-AnimationTimer = function (duration, timeWarp)  {
-   this.timeWarp = timeWarp;
+AnimationTimer = function(duration, timeWarp) {
+  this.timeWarp = timeWarp
 
-   if (duration !== undefined) this.duration = duration;
-   else                        this.duration = 1000;
+  if (duration !== undefined) this.duration = duration
+  else this.duration = 1000
 
-   this.stopwatch = new Stopwatch();
-};
+  this.stopwatch = new Stopwatch()
+}
 
 AnimationTimer.prototype = {
-   start: function () {
-      this.stopwatch.start();
-   },
+  start: function() {
+    this.stopwatch.start()
+  },
 
-   stop: function () {
-      this.stopwatch.stop();
-   },
+  stop: function() {
+    this.stopwatch.stop()
+  },
 
-   getRealElapsedTime: function () {
-      return this.stopwatch.getElapsedTime();
-   },
-   
-   getElapsedTime: function () {
-      var elapsedTime = this.stopwatch.getElapsedTime(),
-          percentComplete = elapsedTime / this.duration;
+  getRealElapsedTime: function() {
+    return this.stopwatch.getElapsedTime()
+  },
 
-      if (!this.stopwatch.running)    return undefined;
-      if (this.timeWarp == undefined) return elapsedTime;
+  getElapsedTime: function() {
+    var elapsedTime = this.stopwatch.getElapsedTime(),
+      percentComplete = elapsedTime / this.duration
 
-      return elapsedTime * (this.timeWarp(percentComplete) / percentComplete);
-   },
+    if (!this.stopwatch.running) return undefined
+    if (this.timeWarp == undefined) return elapsedTime
 
-   isRunning: function() {
-      return this.stopwatch.running;
-   },
-   
-   isOver: function () {
-      return this.stopwatch.getElapsedTime() > this.duration;
-   },
+    return elapsedTime * (this.timeWarp(percentComplete) / percentComplete)
+  },
 
-   reset: function() {
-      this.stopwatch.reset();
-   }
-};
+  isRunning: function() {
+    return this.stopwatch.running
+  },
 
-AnimationTimer.makeEaseOut = function (strength) {
-   return function (percentComplete) {
-      return 1 - Math.pow(1 - percentComplete, strength*2);
-   };
-};
+  isOver: function() {
+    return this.stopwatch.getElapsedTime() > this.duration
+  },
 
-AnimationTimer.makeEaseIn = function (strength) {
-   return function (percentComplete) {
-      return Math.pow(percentComplete, strength*2);
-   };
-};
+  reset: function() {
+    this.stopwatch.reset()
+  }
+}
 
-AnimationTimer.makeEaseInOut = function () {
-   return function (percentComplete) {
-      return percentComplete - Math.sin(percentComplete*2*Math.PI) / (2*Math.PI);
-   };
-};
+AnimationTimer.makeEaseOut = function(strength) {
+  return function(percentComplete) {
+    return 1 - Math.pow(1 - percentComplete, strength * 2)
+  }
+}
 
-AnimationTimer.makeElastic = function (passes) {
-   passes = passes || 3;
-   return function (percentComplete) {
-       return ((1-Math.cos(percentComplete * Math.PI * passes)) *
-               (1 - percentComplete)) + percentComplete;
-   };
-};
+AnimationTimer.makeEaseIn = function(strength) {
+  return function(percentComplete) {
+    return Math.pow(percentComplete, strength * 2)
+  }
+}
 
-AnimationTimer.makeBounce = function (bounces) {
-   var fn = AnimationTimer.makeElastic(bounces);
-   return function (percentComplete) {
-      percentComplete = fn(percentComplete);
-      return percentComplete <= 1 ? percentComplete : 2-percentComplete;
-   }; 
-};
+AnimationTimer.makeEaseInOut = function() {
+  return function(percentComplete) {
+    return percentComplete - Math.sin(percentComplete * 2 * Math.PI) / (2 * Math.PI)
+  }
+}
 
-AnimationTimer.makeLinear = function () {
-   return function (percentComplete) {
-      return percentComplete;
-   };
-};
+AnimationTimer.makeElastic = function(passes) {
+  passes = passes || 3
+  return function(percentComplete) {
+    return (1 - Math.cos(percentComplete * Math.PI * passes)) * (1 - percentComplete) + percentComplete
+  }
+}
+
+AnimationTimer.makeBounce = function(bounces) {
+  var fn = AnimationTimer.makeElastic(bounces)
+  return function(percentComplete) {
+    percentComplete = fn(percentComplete)
+    return percentComplete <= 1 ? percentComplete : 2 - percentComplete
+  }
+}
+
+AnimationTimer.makeLinear = function() {
+  return function(percentComplete) {
+    return percentComplete
+  }
+}

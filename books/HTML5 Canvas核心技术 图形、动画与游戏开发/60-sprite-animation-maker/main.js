@@ -29,6 +29,22 @@ const bombNoFusePainter = new ImagePainter('bomb-no-fuse.png')
 const fuseBurningPainters = []
 const explosionPainters = []
 
+for (var i = 0; i < NUM_FUSE_PAINTERS; ++i) {
+  fuseBurningPainters.push(new ImagePainter('fuse-0' + i + '.png'))
+}
+
+for (var i = 0; i < NUM_EXPLOSION_PAINTERS; ++i) {
+  explosionPainters.push(new ImagePainter('explosion-0' + i + '.png'))
+}
+
+// Bomb......................................................
+
+const bomb = new Sprite('bomb', bombPainter)
+bomb.left = BOMB_LEFT
+bomb.top = BOMB_TOP
+bomb.width = BOMB_WIDTH
+bomb.height = BOMB_HEIGHT
+
 // Animators.................................................
 
 const fuseBurningAnimator = new SpriteAnimator(fuseBurningPainters, () => {
@@ -38,10 +54,6 @@ const fuseBurningAnimator = new SpriteAnimator(fuseBurningPainters, () => {
 const explosionAnimator = new SpriteAnimator(explosionPainters, () => {
   bomb.painter = bombNoFusePainter
 })
-
-// Bomb......................................................
-
-const bomb = new Sprite('bomb', bombPainter)
 
 const animate = now => {
   context.clearRect(0, 0, width, height)
@@ -65,19 +77,6 @@ explosionButton.onclick = () => {
       bomb.painter = bombPainter
     }, 2000)
   }, 3000)
-}
-
-bomb.left = BOMB_LEFT
-bomb.top = BOMB_TOP
-bomb.width = BOMB_WIDTH
-bomb.height = BOMB_HEIGHT
-
-for (var i = 0; i < NUM_FUSE_PAINTERS; ++i) {
-  fuseBurningPainters.push(new ImagePainter('fuse-0' + i + '.png'))
-}
-
-for (var i = 0; i < NUM_EXPLOSION_PAINTERS; ++i) {
-  explosionPainters.push(new ImagePainter('explosion-0' + i + '.png'))
 }
 
 window.requestNextAnimationFrame(animate)
