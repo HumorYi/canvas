@@ -1,0 +1,41 @@
+<!--
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件：重力：抛射体弹道运动-轨迹
+ *  page - 302
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>projectile-ballistic-motion-track</title>
+  <link rel="stylesheet" href="./main.css" />
+</head>
+
+<body>
+  <canvas id='canvas' width='800' height='450'>
+    Canvas not supported
+  </canvas>
+
+  <div id='scoreboard' class='floatingControls'>0</div>
+
+  <div id='controls' class='floatingControls'>
+    Launch velocity (m/s): <output id='launchVelocityOutput'></output> m/s<br />
+    Launch angle (degrees): <output id='launchAngleOutput'></output> degrees<br />
+  </div>
+
+  <script src='../util/index.js'></script>
+  <script src='../shared/js/requestNextAnimationFrame.js'></script>
+  <script src='../shared/js/sprites.js'></script>
+  <script src="./main.js"></script>
+</body>
+
+</html>
