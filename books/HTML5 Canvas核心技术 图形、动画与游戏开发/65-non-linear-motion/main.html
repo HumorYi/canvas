@@ -1,0 +1,52 @@
+<!--
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件：没有加速度的线性运动
+ *  page - 319
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>non-linear-motion</title>
+  <link rel="stylesheet" href="./main.css" />
+</head>
+
+<body>
+  <canvas id='canvas' width='850' height='350'>
+    Canvas not supported
+  </canvas>
+
+  <div id='motionControls' class='controls'>
+    <div id='motionRadios'>
+      <input type='radio' name='motion' id='linearCheckbox' checked />Linear<br>
+      <input type='radio' name='motion' id='easeInCheckbox' />Ease In<br>
+      <input type='radio' name='motion' id='easeOutCheckbox' />Ease Out<br>
+      <input type='radio' name='motion' id='easeInOutCheckbox' />Ease In/Out<br>
+      <input type='radio' name='motion' id='elasticCheckbox' />Elastic<br>
+      <input type='radio' name='motion' id='bounceCheckbox' />Bounce<br>
+    </div>
+  </div>
+
+  <div id='thrustersDiv'>
+    <canvas id='thrustersCanvas' width='110' height='50'>
+      canvas not supported
+    </canvas>
+  </div>
+
+  <script src='../shared/js/stopwatch.js'></script>
+  <script src='../shared/js/animationTimer.js'></script>
+  <script src='../shared/js/requestNextAnimationFrame.js'></script>
+  <script src='../shared/js/sprites.js'></script>
+  <script src="./main.js"></script>
+</body>
+
+</html>

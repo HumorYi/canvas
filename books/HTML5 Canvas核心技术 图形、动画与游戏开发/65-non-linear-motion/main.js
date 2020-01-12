@@ -13,59 +13,72 @@ const context = canvas.getContext('2d')
 const width = canvas.width
 const height = canvas.height
 
+const linearCheckbox = document.getElementById('linearCheckbox')
+const easeInCheckbox = document.getElementById('easeInCheckbox')
+const easeOutCheckbox = document.getElementById('easeOutCheckbox')
+const easeInOutCheckbox = document.getElementById('easeInOutCheckbox')
+const elasticCheckbox = document.getElementById('elasticCheckbox')
+const bounceCheckbox = document.getElementById('bounceCheckbox')
+
 const thrustersCanvas = document.getElementById('thrustersCanvas')
 const thrustersContext = thrustersCanvas.getContext('2d')
 const thrusters_width = thrustersCanvas.width
 const thrusters_height = thrustersCanvas.height
 
-const animateButton = document.getElementById('animateButton')
+const PUSH_ANIMATION_DURATION = 3600
+const THRUSTER_FILL_STYLE = 'rgba(100,140,230,0.8)'
+const THRUSTER_FIRING_FILL_STYLE = 'rgba(255,255,0,0.8)'
 
 const RIGHT = 1
 const LEFT = 2
 const ARROW_MARGIN = 10
-const BALL_RADIUS = 15
-const LEDGE_LEFT = 150
-const LEDGE_TOP = 90
-const LEDGE_WIDTH = 44
+const BALL_RADIUS = 25
+const LEDGE_LEFT = 62
+const LEDGE_TOP = 275
+const LEDGE_WIDTH = width - (LEDGE_LEFT * 2)
 const LEDGE_HEIGHT = 12
-const ANIMATION_DURATION = 200
-const THRUSTER_FILL_STYLE = 'rgba(100,140,230,0.8)'
-const THRUSTER_FIRING_FILL_STYLE = 'rgba(255,255,0,0.8)'
 
-let lastTime = 0
-let arrow = LEFT
+const linear = AnimationTimer.makeLinear()
+const easeIn = AnimationTimer.makeEaseIn(1)
+const easeOut = AnimationTimer.makeEaseOut(1)
+const easeInOut = AnimationTimer.makeEaseInOut()
+const elastic = AnimationTimer.makeElastic(4)
+const bounce = AnimationTimer.makeBounce(5)
 
-const pushTimer = new AnimationTimer(ANIMATION_DURATION)
-
-const isBallOnLedge = () => {
-  return ball.left + 2 * BALL_RADIUS > LEDGE_LEFT && ball.left < LEDGE_LEFT + LEDGE_WIDTH
-}
+const pushAnimationTimer = new AnimationTimer(PUSH_ANIMATION_DURATION)
 
 const moveBall = {
   lastTime: undefined,
-
+  isBallOnLedge() {
+    return ball.left + 2 * BALL_RADIUS > LEDGE_LEFT && ball.left < LEDGE_LEFT + LEDGE_WIDTH
+  },
   resetBall() {
-    ball.left = LEDGE_LEFT + LEDGE_WIDTH / 2 - BALL_RADIUS
+    ball.left = LEDGE_LEFT - BALL_RADIUS
     ball.top = LEDGE_TOP - BALL_RADIUS * 2
   },
-
+  updateBallPosition(elapsed) {
+    ball.left += (arrow === LEFT ? -1 : 1) * ball.velocityX * (elapsed / 1000)
+  },
   execute(sprite, context, time) {
-    const timerElapsed = pushTimer.getElapsedTime()
-    let frameElapsed
+    let animationElapsed = undefined
 
-    if (pushTimer.isRunning() && this.lastTime !== undefined) {
-      frameElapsed = timerElapsed - this.lastTime
+    if (pushAnimationTimer.isRunning()) {
+      animationElapsed = pushAnimationTimer.getElapsedTime()
 
-      ball.left += (arrow === LEFT ? -1 : 1) * ball.velocityX * (frameElapsed / 1000)
+      if (this.lastTime !== undefined) {
+        this.updateBallPosition(animationElapsed - this.lastTime)
 
-      if (isBallOnLedge()) {
-        pushTimer.isOver() && pushTimer.stop()
-      } else {
-        pushTimer.stop()
-        this.resetBall()
+        if (this.isBallOnLedge()) {
+          pushAnimationTimer.isOver() && pushAnimationTimer.stop()
+        }
+        else {
+          pushAnimationTimer.stop()
+          this.resetBall()
+        }
       }
     }
-    this.lastTime = timerElapsed
+
+    this.lastTime = animationElapsed
   }
 }
 
@@ -73,9 +86,12 @@ const ball = new Sprite(
   'ball',
   {
     paint(sprite, context) {
+      const x = sprite.left + sprite.width / 2
+      const y = sprite.top + sprite.height / 2
+
       context.save()
       context.beginPath()
-      context.arc(sprite.left + sprite.width / 2, sprite.top + sprite.height / 2, BALL_RADIUS, 0, Math.PI * 2, false)
+      context.arc(x, y, BALL_RADIUS, 0, Math.PI * 2, false)
       context.clip()
 
       context.shadowColor = 'rgb(0,0,255)'
@@ -88,14 +104,7 @@ const ball = new Sprite(
       context.stroke()
 
       context.beginPath()
-      context.arc(
-        sprite.left + sprite.width / 2,
-        sprite.top + sprite.height / 2,
-        BALL_RADIUS / 2,
-        0,
-        Math.PI * 2,
-        false
-      )
+      context.arc(x, y, BALL_RADIUS / 2, 0, Math.PI * 2, false)
       context.clip()
 
       context.shadowColor = 'rgb(255,255,0)'
@@ -113,6 +122,7 @@ const ball = new Sprite(
 const ledge = new Sprite('ledge', {
   paint(sprite, context) {
     context.save()
+
     context.shadowColor = 'rgba(0,0,0,0.8)'
     context.shadowBlur = 8
     context.shadowOffsetX = 4
@@ -120,15 +130,19 @@ const ledge = new Sprite('ledge', {
 
     context.fillStyle = 'rgba(255,255,0,0.6)'
     context.fillRect(sprite.left, sprite.top, sprite.width, sprite.height)
+
     context.restore()
   }
 })
 
-const calculateFps = (time, lastTime) => 1000 / (time - lastTime)
+let lastTime = 0
+let arrow = LEFT
 
 const paintArrow = context => {
   const x = thrusters_width / 2 - ARROW_MARGIN / 2
   const y = thrusters_height - ARROW_MARGIN / 2
+
+  context.save()
 
   context.beginPath()
 
@@ -145,26 +159,31 @@ const paintArrow = context => {
   context.lineTo(thrusters_width / 2 - ARROW_MARGIN, ARROW_MARGIN / 2)
 
   context.quadraticCurveTo(thrusters_width / 2 - ARROW_MARGIN, ARROW_MARGIN / 2, x, ARROW_MARGIN / 2)
+
   context.fill()
   context.stroke()
-}
-const paintLeftArrow = context => paintArrow(context)
-const paintRightArrow = context => {
-  thrustersContext.save()
 
-  thrustersContext.translate(thrusters_width, 0)
-  thrustersContext.scale(-1, 1)
+  context.restore()
+}
+
+const paintRightArrow = context => {
+  context.save()
+
+  context.translate(thrusters_width, 0)
+  context.scale(-1, 1)
 
   paintArrow(context)
 
-  thrustersContext.restore()
+  context.restore()
 }
+
+const paintLeftArrow = context => paintArrow(context)
 
 const paintThrusters = () => {
   const isArrowLeft = arrow === LEFT
   thrustersContext.clearRect(0, 0, thrusters_width, thrusters_height)
 
-  thrustersContext.fillStyle = pushTimer.isRunning() ? THRUSTER_FIRING_FILL_STYLE : THRUSTER_FILL_STYLE
+  thrustersContext.fillStyle = pushAnimationTimer.isRunning() ? THRUSTER_FIRING_FILL_STYLE : THRUSTER_FILL_STYLE
 
   isArrowLeft ? paintLeftArrow(thrustersContext) : paintRightArrow(thrustersContext)
 
@@ -174,9 +193,6 @@ const paintThrusters = () => {
 }
 
 const animate = time => {
-  fps = calculateFps(time, lastTime)
-  lastTime = time
-
   context.clearRect(0, 0, width, height)
 
   ball.update(context, time)
@@ -190,6 +206,8 @@ const animate = time => {
   window.requestNextAnimationFrame(animate)
 }
 
+// Event handlers................................................
+
 thrustersCanvas.onmousedown = e => {
   const rect = thrustersCanvas.getBoundingClientRect()
   const x = e.x || e.clientX
@@ -199,10 +217,39 @@ thrustersCanvas.onmousedown = e => {
 
   arrow = x - rect.left > thrusters_width / 2 ? RIGHT : LEFT
 
-  pushTimer.isRunning() && pushTimer.stop()
+  pushAnimationTimer.isRunning() && pushAnimationTimer.stop()
 
-  pushTimer.start()
+  pushAnimationTimer.start()
 }
+
+linearCheckbox.onchange = () => {
+  pushAnimationTimer.timeWarp = linear
+}
+
+easeInCheckbox.onchange = () => {
+  pushAnimationTimer.timeWarp = easeIn
+}
+
+easeOutCheckbox.onchange = () => {
+  pushAnimationTimer.timeWarp = easeOut
+}
+
+easeInOutCheckbox.onchange = () => {
+  pushAnimationTimer.timeWarp = easeInOut
+}
+
+elasticCheckbox.onchange = () => {
+  pushAnimationTimer.timeWarp = elastic
+  ball.left = LEDGE_LEFT - BALL_RADIUS
+  ball.top = LEDGE_TOP - BALL_RADIUS * 2
+}
+
+bounceCheckbox.onchange = () => {
+  pushAnimationTimer.timeWarp = bounce
+}
+
+
+// Initialization................................................
 
 thrustersContext.strokeStyle = 'rgba(100,140,230,0.6)'
 thrustersContext.shadowColor = 'rgba(0,0,0,0.3)'
@@ -210,10 +257,11 @@ thrustersContext.shadowBlur = 6
 thrustersContext.shadowX = 4
 thrustersContext.shadowY = 4
 
-moveBall.resetBall()
+ball.left = LEDGE_LEFT - BALL_RADIUS
+ball.top = LEDGE_TOP - BALL_RADIUS * 2
 ball.width = BALL_RADIUS * 2
 ball.height = BALL_RADIUS * 2
-ball.velocityX = 110
+ball.velocityX = 100
 ball.velocityY = 0
 
 ledge.left = LEDGE_LEFT

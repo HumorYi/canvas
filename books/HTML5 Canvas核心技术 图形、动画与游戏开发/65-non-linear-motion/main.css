@@ -1,0 +1,59 @@
+/*
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+ */
+body {
+  background: #eeeeee;
+}
+
+#thrustersCanvas {
+  background: rgba(255, 255, 255, 0.4);
+  position: absolute;
+  left: 385px;
+  top: 150px;
+  border: thin solid rbga(0, 0, 0, 1.0);
+  -webkit-box-shadow: rgba(0, 0, 0, 0.5) 4px 4px 6px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.5) 4px 4px 6px;
+  box-shadow: rgba(0, 0, 0, 0.5) 4px 4px 6px;
+}
+
+#canvas {
+  position: absolute;
+  left: 0px;
+  top: 20px;
+  margin-left: 20px;
+  background: lightskyblue;
+  border: thin solid rbga(0, 0, 0, 1.0);
+  -webkit-box-shadow: rgba(0, 0, 0, 0.5) 4px 4px 6px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.5) 4px 4px 6px;
+  box-shadow: rgba(0, 0, 0, 0.5) 4px 4px 6px;
+}
+
+.controls {
+  position: absolute;
+  left: 50px;
+  top: 10px;
+  font: 12px Arial;
+}
+
+#motionControls {
+  padding-top: 20px;
+  padding-left: 30px;
+}
+
+#strengthControls {
+  padding-top: 25px;
+  padding-left: 110px;
+  padding-right: 10px;
+}
+
+#strengthControls input {
+  margin-left: 10px;
+  vertical-align: -5px;
+}
