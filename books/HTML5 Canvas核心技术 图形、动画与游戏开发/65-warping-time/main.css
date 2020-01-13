@@ -1,0 +1,34 @@
+/*
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+ */
+body {
+  background: #cdcdcd;
+}
+
+.controls {
+  position: absolute;
+  left: 150px;
+  top: 10px;
+  font: 12px Arial;
+}
+
+#canvas {
+  position: absolute;
+  left: 0px;
+  top: 20px;
+  margin: 20px;
+  border: thin inset rgba(100, 150, 230, 0.8);
+  background: #efefef;
+}
+
+#animateButton {
+  margin-left: 15px;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,47 @@
+<!--
+ * @Author: Bamboo
+ * @AuthorEmail: bamboo8493@126.com
+ * @AuthorDate: Do not edit
+ * @AuthorDescription: 入口文件：以扭曲后的帧速率播放动画
+ *  page - 326
+ * @Modifier:
+ * @ModifierEmail:
+ * @ModifierDate: Do not edit
+ * @ModifierDescription:
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Warping Time</title>
+  <link rel="stylesheet" href="./main.css" />
+</head>
+
+<body>
+  <input id='animateButton' type='button' value='Animate' />
+
+  <canvas id='canvas' width='420' height='100'>
+    Canvas not supported
+  </canvas>
+
+  <div id='motionControls' class='controls'>
+    <div id='motionRadios'>
+      <input type='radio' name='motion' id='linearRadio' checked />Linear
+      <input type='radio' name='motion' id='easeInRadio' />Ease In
+      <input type='radio' name='motion' id='easeOutRadio' />Ease Out
+      <input type='radio' name='motion' id='easeInOutRadio' />Ease In/Out
+    </div>
+  </div>
+
+  <script src="../util/index.js"></script>
+  <script src='../shared/js/stopwatch.js'></script>
+  <script src='../shared/js/animationTimer.js'></script>
+  <script src='../shared/js/requestNextAnimationFrame.js'></script>
+  <script src='../shared/js/sprites.js'></script>
+  <script src="./main.js"></script>
+</body>
+
+</html>

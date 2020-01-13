@@ -52,7 +52,7 @@ context.shadowOffsetX = 3
 context.shadowOffsetY = 3
 context.shadowBlur = 5
 
-drawAxes(
+drawAxis(
   context,
   AXIS_COLOR,
   AXIS_LINEWIDTH,

@@ -30,7 +30,7 @@ const AXIS_LINEWIDTH = 1.0
 const AXIS_COLOR = 'blue'
 
 drawGrid(context)
-drawAxes(
+drawAxis(
   context,
   AXIS_COLOR,
   AXIS_LINEWIDTH,

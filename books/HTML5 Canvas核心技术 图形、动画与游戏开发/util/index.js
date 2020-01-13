@@ -138,7 +138,7 @@ const drawVerticalAxisTicks = (context, NUM_VERTICAL_TICKS, TICK_WIDTH, AXIS_ORI
   }
 }
 
-const drawAxes = (
+const drawAxis = (
   context,
   AXIS_COLOR,
   AXIS_LINEWIDTH,
