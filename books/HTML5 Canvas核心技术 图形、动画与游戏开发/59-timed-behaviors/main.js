@@ -35,7 +35,7 @@ const THRUSTER_FIRING_FILL_STYLE = 'rgba(255,255,0,0.8)'
 let lastTime = 0
 let arrow = LEFT
 
-const pushTimer = new AnimationTimer(ANIMATION_DURATION)
+const pushAnimationTimer = new AnimationTimer(ANIMATION_DURATION)
 
 const isBallOnLedge = () => {
   return ball.left + 2 * BALL_RADIUS > LEDGE_LEFT && ball.left < LEDGE_LEFT + LEDGE_WIDTH
@@ -50,18 +50,18 @@ const moveBall = {
   },
 
   execute(sprite, context, time) {
-    const timerElapsed = pushTimer.getElapsedTime()
+    const timerElapsed = pushAnimationTimer.getElapsedTime()
     let frameElapsed
 
-    if (pushTimer.isRunning() && this.lastTime !== undefined) {
+    if (pushAnimationTimer.isRunning() && this.lastTime !== undefined) {
       frameElapsed = timerElapsed - this.lastTime
 
       ball.left += (arrow === LEFT ? -1 : 1) * ball.velocityX * (frameElapsed / 1000)
 
       if (isBallOnLedge()) {
-        pushTimer.isOver() && pushTimer.stop()
+        pushAnimationTimer.isOver() && pushAnimationTimer.stop()
       } else {
-        pushTimer.stop()
+        pushAnimationTimer.stop()
         this.resetBall()
       }
     }
@@ -124,55 +124,6 @@ const ledge = new Sprite('ledge', {
   }
 })
 
-const calculateFps = (time, lastTime) => 1000 / (time - lastTime)
-
-const paintArrow = context => {
-  const x = thrusters_width / 2 - ARROW_MARGIN / 2
-  const y = thrusters_height - ARROW_MARGIN / 2
-
-  context.beginPath()
-
-  context.moveTo(x, ARROW_MARGIN / 2)
-
-  context.lineTo(x, thrusters_height - ARROW_MARGIN)
-
-  context.quadraticCurveTo(x, y, thrusters_width / 2 - ARROW_MARGIN, y)
-
-  context.lineTo(ARROW_MARGIN, thrusters_height / 2 + ARROW_MARGIN / 2)
-
-  context.quadraticCurveTo(ARROW_MARGIN - 3, thrusters_height / 2, ARROW_MARGIN, thrusters_height / 2 - ARROW_MARGIN / 2)
-
-  context.lineTo(thrusters_width / 2 - ARROW_MARGIN, ARROW_MARGIN / 2)
-
-  context.quadraticCurveTo(thrusters_width / 2 - ARROW_MARGIN, ARROW_MARGIN / 2, x, ARROW_MARGIN / 2)
-  context.fill()
-  context.stroke()
-}
-const paintLeftArrow = context => paintArrow(context)
-const paintRightArrow = context => {
-  thrustersContext.save()
-
-  thrustersContext.translate(thrusters_width, 0)
-  thrustersContext.scale(-1, 1)
-
-  paintArrow(context)
-
-  thrustersContext.restore()
-}
-
-const paintThrusters = () => {
-  const isArrowLeft = arrow === LEFT
-  thrustersContext.clearRect(0, 0, thrusters_width, thrusters_height)
-
-  thrustersContext.fillStyle = pushTimer.isRunning() ? THRUSTER_FIRING_FILL_STYLE : THRUSTER_FILL_STYLE
-
-  isArrowLeft ? paintLeftArrow(thrustersContext) : paintRightArrow(thrustersContext)
-
-  thrustersContext.fillStyle = THRUSTER_FILL_STYLE
-
-  isArrowLeft ? paintRightArrow(thrustersContext) : paintLeftArrow(thrustersContext)
-}
-
 const animate = time => {
   fps = calculateFps(time, lastTime)
   lastTime = time
@@ -185,7 +136,16 @@ const animate = time => {
   ledge.update(context, time)
   ledge.paint(context)
 
-  paintThrusters()
+  paintThrusters(
+    thrustersContext,
+    thrusters_width,
+    thrusters_height,
+    pushAnimationTimer,
+    THRUSTER_FIRING_FILL_STYLE,
+    THRUSTER_FILL_STYLE,
+    ARROW_MARGIN,
+    arrow === LEFT
+  )
 
   window.requestNextAnimationFrame(animate)
 }
@@ -199,9 +159,9 @@ thrustersCanvas.onmousedown = e => {
 
   arrow = x - rect.left > thrusters_width / 2 ? RIGHT : LEFT
 
-  pushTimer.isRunning() && pushTimer.stop()
+  pushAnimationTimer.isRunning() && pushAnimationTimer.stop()
 
-  pushTimer.start()
+  pushAnimationTimer.start()
 }
 
 thrustersContext.strokeStyle = 'rgba(100,140,230,0.6)'

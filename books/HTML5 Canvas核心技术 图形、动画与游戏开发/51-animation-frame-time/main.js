@@ -17,7 +17,8 @@ let lastFpsUpdate = 0
 
 const drawFps = () => {
   let now = new Date().getTime()
-  let fps = calculateFps()
+  let fps = calculateFps(now, lastTime)
+  lastTime = now
 
   if (frameCount === 100) {
     frameCount = -1

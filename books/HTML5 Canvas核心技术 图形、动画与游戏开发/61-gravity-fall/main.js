@@ -159,8 +159,6 @@ const pushBallLeft = () => {
   pushAnimationTimer.start()
 }
 
-const calculateFps = (time, lastTime) => 1000 / (time - lastTime)
-
 const paintArrow = context => {
   context.save()
 

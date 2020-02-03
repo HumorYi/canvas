@@ -9,7 +9,7 @@
  * @ModifierDescription:
  */
 
-const drawGrid = (context, color = "lightgray", stepx = 10, stepy = stepx, fillStyle = "#fff", lineWidth = 0.5) => {
+const drawGrid = (context, color = 'lightgray', stepx = 10, stepy = stepx, fillStyle = '#fff', lineWidth = 0.5) => {
   const width = context.canvas.width
   const height = context.canvas.height
 
@@ -143,8 +143,10 @@ const drawAxis = (
   AXIS_COLOR,
   AXIS_LINEWIDTH,
   TICKS_LINEWIDTH,
-  TICKS_COLOR, AXIS_ORIGIN,
-  AXIS_RIGHT, AXIS_TOP,
+  TICKS_COLOR,
+  AXIS_ORIGIN,
+  AXIS_RIGHT,
+  AXIS_TOP,
   NUM_HORIZONTAL_TICKS,
   NUM_VERTICAL_TICKS,
   TICK_WIDTH,
@@ -168,7 +170,6 @@ const drawAxis = (
   context.restore()
 }
 /* 画坐标轴 E */
-
 
 /* 画坐标轴文本 S */
 const drawHorizontalAxisLabels = (
@@ -288,18 +289,7 @@ const drawCentroid = (
 /* 画圆点 E */
 
 /* 画圆形文本 S */
-const drawCircularText = (
-  context,
-  x,
-  y,
-  radius,
-  text,
-  startAngle,
-  endAngle,
-  fillStyle,
-  strokeStyle,
-  font
-) => {
+const drawCircularText = (context, x, y, radius, text, startAngle, endAngle, fillStyle, strokeStyle, font) => {
   const textLen = text.length
   const angleDecrement = (startAngle - endAngle) / (textLen - 1)
   const baseRotate = Math.PI / 2
@@ -317,10 +307,7 @@ const drawCircularText = (
     context.save()
     context.beginPath()
 
-    context.translate(
-      x + Math.cos(angle) * radius,
-      y - Math.sin(angle) * radius
-    )
+    context.translate(x + Math.cos(angle) * radius, y - Math.sin(angle) * radius)
 
     context.rotate(baseRotate - angle)
 
@@ -338,8 +325,6 @@ const drawCircularText = (
 /* 画圆形文本 E */
 
 /* 画背景色 S */
-
-
 const drawBackground = (
   context,
   width,
@@ -392,3 +377,73 @@ const drawBackground = (
   context.restore()
 }
 /* 画背景色 E */
+
+/* 画三角形 S */
+const paintArrow = (thrustersContext, thrusters_width, thrusters_height, ARROW_MARGIN) => {
+  const x = thrusters_width / 2 - ARROW_MARGIN / 2
+  const y = thrusters_height - ARROW_MARGIN / 2
+
+  thrustersContext.beginPath()
+
+  thrustersContext.moveTo(x, ARROW_MARGIN / 2)
+
+  thrustersContext.lineTo(x, thrusters_height - ARROW_MARGIN)
+
+  thrustersContext.quadraticCurveTo(x, y, thrusters_width / 2 - ARROW_MARGIN, y)
+
+  thrustersContext.lineTo(ARROW_MARGIN, thrusters_height / 2 + ARROW_MARGIN / 2)
+
+  thrustersContext.quadraticCurveTo(
+    ARROW_MARGIN - 3,
+    thrusters_height / 2,
+    ARROW_MARGIN,
+    thrusters_height / 2 - ARROW_MARGIN / 2
+  )
+
+  thrustersContext.lineTo(thrusters_width / 2 - ARROW_MARGIN, ARROW_MARGIN / 2)
+
+  thrustersContext.quadraticCurveTo(thrusters_width / 2 - ARROW_MARGIN, ARROW_MARGIN / 2, x, ARROW_MARGIN / 2)
+  thrustersContext.fill()
+
+  thrustersContext.stroke()
+}
+const paintLeftArrow = thrustersContext => paintArrow(thrustersContext, thrusters_width, thrusters_height, ARROW_MARGIN)
+const paintRightArrow = (thrustersContext, thrusters_width, thrusters_height, ARROW_MARGIN) => {
+  thrustersContext.save()
+
+  thrustersContext.translate(thrusters_width, 0)
+  thrustersContext.scale(-1, 1)
+
+  paintArrow(thrustersContext, thrusters_width, thrusters_height, ARROW_MARGIN)
+
+  thrustersContext.restore()
+}
+const paintThrusters = (
+  thrustersContext,
+  thrusters_width,
+  thrusters_height,
+  pushAnimationTimer,
+  THRUSTER_FIRING_FILL_STYLE,
+  THRUSTER_FILL_STYLE,
+  ARROW_MARGIN,
+  isArrowLeft
+) => {
+  thrustersContext.clearRect(0, 0, thrusters_width, thrusters_height)
+
+  thrustersContext.fillStyle = pushAnimationTimer.isRunning() ? THRUSTER_FIRING_FILL_STYLE : THRUSTER_FILL_STYLE
+
+  isArrowLeft
+    ? paintLeftArrow(thrustersContext, thrusters_width, thrusters_height, ARROW_MARGIN)
+    : paintRightArrow(thrustersContext, thrusters_width, thrusters_height, ARROW_MARGIN)
+
+  thrustersContext.fillStyle = THRUSTER_FILL_STYLE
+
+  isArrowLeft
+    ? paintRightArrow(thrustersContext, thrusters_width, thrusters_height, ARROW_MARGIN)
+    : paintLeftArrow(thrustersContext, thrusters_width, thrusters_height, ARROW_MARGIN)
+}
+/* 画三角形 E */
+
+/* 计算fps S */
+const calculateFps = (time, lastTime) => 1000 / (time - lastTime)
+/* 计算fps E */

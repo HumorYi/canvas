@@ -138,60 +138,6 @@ const ledge = new Sprite('ledge', {
 let lastTime = 0
 let arrow = LEFT
 
-const paintArrow = context => {
-  const x = thrusters_width / 2 - ARROW_MARGIN / 2
-  const y = thrusters_height - ARROW_MARGIN / 2
-
-  context.save()
-
-  context.beginPath()
-
-  context.moveTo(x, ARROW_MARGIN / 2)
-
-  context.lineTo(x, thrusters_height - ARROW_MARGIN)
-
-  context.quadraticCurveTo(x, y, thrusters_width / 2 - ARROW_MARGIN, y)
-
-  context.lineTo(ARROW_MARGIN, thrusters_height / 2 + ARROW_MARGIN / 2)
-
-  context.quadraticCurveTo(ARROW_MARGIN - 3, thrusters_height / 2, ARROW_MARGIN, thrusters_height / 2 - ARROW_MARGIN / 2)
-
-  context.lineTo(thrusters_width / 2 - ARROW_MARGIN, ARROW_MARGIN / 2)
-
-  context.quadraticCurveTo(thrusters_width / 2 - ARROW_MARGIN, ARROW_MARGIN / 2, x, ARROW_MARGIN / 2)
-
-  context.fill()
-  context.stroke()
-
-  context.restore()
-}
-
-const paintRightArrow = context => {
-  context.save()
-
-  context.translate(thrusters_width, 0)
-  context.scale(-1, 1)
-
-  paintArrow(context)
-
-  context.restore()
-}
-
-const paintLeftArrow = context => paintArrow(context)
-
-const paintThrusters = () => {
-  const isArrowLeft = arrow === LEFT
-  thrustersContext.clearRect(0, 0, thrusters_width, thrusters_height)
-
-  thrustersContext.fillStyle = pushAnimationTimer.isRunning() ? THRUSTER_FIRING_FILL_STYLE : THRUSTER_FILL_STYLE
-
-  isArrowLeft ? paintLeftArrow(thrustersContext) : paintRightArrow(thrustersContext)
-
-  thrustersContext.fillStyle = THRUSTER_FILL_STYLE
-
-  isArrowLeft ? paintRightArrow(thrustersContext) : paintLeftArrow(thrustersContext)
-}
-
 const animate = time => {
   context.clearRect(0, 0, width, height)
 
@@ -201,7 +147,16 @@ const animate = time => {
   ledge.update(context, time)
   ledge.paint(context)
 
-  paintThrusters()
+  paintThrusters(
+    thrustersContext,
+    thrusters_width,
+    thrusters_height,
+    pushAnimationTimer,
+    THRUSTER_FIRING_FILL_STYLE,
+    THRUSTER_FILL_STYLE,
+    ARROW_MARGIN,
+    arrow === LEFT
+  )
 
   window.requestNextAnimationFrame(animate)
 }

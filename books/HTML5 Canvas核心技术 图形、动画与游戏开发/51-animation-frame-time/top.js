@@ -6,7 +6,7 @@
  * @ModifierEmail:
  * @ModifierDescription:
  * @Date: 2019-12-25 14:31:55
- * @LastEditTime : 2019-12-25 15:57:57
+ * @LastEditTime : 2020-02-03 16:16:14
  */
 ;(() => {
   const topCanvas = document.querySelector('#topCanvas')
@@ -365,16 +365,11 @@
   let elapsedTime = 0
   let fps = 0
 
-  const calculateFps = now => {
-    elapsedTime = now - lastTime
-    fps = 1000 / elapsedTime
-    lastTime = now
-  }
-
   const updateFps = () => {
     let now = new Date().getTime()
 
-    calculateFps(now)
+    fps = calculateFps(now, lastTime)
+    lastTime = now
 
     if (now - startTime < 2000) {
       return

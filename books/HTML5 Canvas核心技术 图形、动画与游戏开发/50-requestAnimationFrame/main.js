@@ -61,18 +61,10 @@ let lastTime = 0
 let lastFpsUpdateTime = 0
 let lastFpsUpdate = 0
 
-const calculateFps = () => {
-  let now = new Date().getTime()
-  let fps = 1000 / (now - lastTime)
-
-  lastTime = now
-
-  return fps
-}
-
 const drawFps = () => {
   let now = new Date().getTime()
-  let fps = calculateFps()
+  let fps = calculateFps(now, lastTime)
+  lastTime = now
 
   // if (frameCount === 0) {
   //   console.profile('COREHTML5 Animation, basic')

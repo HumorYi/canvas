@@ -6,7 +6,7 @@
  * @ModifierEmail:
  * @ModifierDescription:
  * @Date: 2019-12-25 14:31:55
- * @LastEditTime : 2019-12-25 16:01:00
+ * @LastEditTime : 2020-02-03 16:14:43
  */
 ;(() => {
   const bottomCanvas = document.querySelector('#bottomCanvas')
@@ -376,15 +376,11 @@
   let lastTime = 0
   let fps = 0
 
-  const calculateFps = now => {
-    fps = 1000 / (now - lastTime)
-    lastTime = now
-  }
-
   const updateFps = () => {
     let now = new Date().getTime()
 
-    calculateFps(now)
+    fps = calculateFps(new Date().getTime(), lastTime)
+    lastTime = now
 
     if (now - startTime < 2000) {
       return

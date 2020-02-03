@@ -77,18 +77,13 @@ const draw = () => {
   context.restore()
 }
 
-const calculateFps = now => {
-  let fps = 1000 / (now - lastTime)
-  lastTime = now
-  return fps
-}
-
 const animate = now => {
   if (now === undefined) {
     now = new Date().getTime()
   }
 
-  fps = calculateFps(now)
+  fps = calculateFps(now, lastTime)
+  lastTime = now
 
   if (!paused) {
     context.clearRect(0, 0, width, height)

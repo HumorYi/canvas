@@ -37,18 +37,13 @@ const draw = () => {
   context.restore()
 }
 
-const calculateFps = now => {
-  let fps = 1000 / (now - lastTime)
-  lastTime = now
-  return fps
-}
-
 const animate = (time) => {
   if (time === undefined) {
     time = new Date().getTime()
   }
 
-  fps = calculateFps(time)
+  fps = calculateFps(time, lastTime)
+  lastTime = time
 
   if (paused) {
     return
