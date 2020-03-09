@@ -43,12 +43,22 @@ const drawGrid = (context, color = 'lightgray', stepx = 10, stepy = stepx, fillS
 }
 
 const windowToCanvas = (canvas, x, y) => {
-  let bbox = canvas.getBoundingClientRect()
+  let rect = canvas.getBoundingClientRect()
 
   return {
-    x: x - bbox.left * (canvas.width / bbox.width),
-    y: y - bbox.top * (canvas.height / bbox.height)
+    x: x - rect.left * (canvas.width / rect.width),
+    y: y - rect.top * (canvas.height / rect.height)
   }
+}
+
+const mouseToCanvas = e => {
+  const rect = canvas.getBoundingClientRect()
+  const loc = { x: e.x || e.clientX, y: e.y || e.clientY }
+
+  loc.x -= rect.left
+  loc.y -= rect.top
+
+  return loc
 }
 
 const drawText = (
@@ -447,3 +457,4 @@ const paintThrusters = (
 /* 计算fps S */
 const calculateFps = (time, lastTime) => 1000 / (time - lastTime)
 /* 计算fps E */
+

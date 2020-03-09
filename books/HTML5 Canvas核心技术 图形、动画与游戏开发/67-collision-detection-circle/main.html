@@ -2,8 +2,8 @@
  * @Author: Bamboo
  * @AuthorEmail: bamboo8493@126.com
  * @AuthorDate: Do not edit
- * @AuthorDescription: 入口文件：外接矩形判别法
- *  page - 333
+ * @AuthorDescription: 入口文件：外接圆形判别法
+ *  page - 334
  * @Modifier:
  * @ModifierEmail:
  * @ModifierDate: Do not edit
@@ -16,24 +16,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Bounding Box Collision Detection</title>
+  <title>Collision Detection Circle</title>
   <link rel="stylesheet" href="./main.css" />
 </head>
 
 <body>
-  <canvas id="canvas" width="350" height="500">
+  <canvas id='canvas' width='800' height='450'>
     Canvas not supported
   </canvas>
 
-  <div id='thrustersDiv'>
-    <canvas id='thrustersCanvas' width='110' height='50'>
-      canvas not supported
-    </canvas>
+  <div id='scoreboard' class='floatingControls'>0</div>
+
+  <div id='controls' class='floatingControls'>
+    Launch velocity (m/s): <output id='launchVelocityOutput'></output> m/s<br />
+    Launch angle (degrees): <output id='launchAngleOutput'></output> degrees<br />
   </div>
 
   <script src="../util/index.js"></script>
-  <script src='../shared/js/stopwatch.js'></script>
-  <script src='../shared/js/animationTimer.js'></script>
   <script src='../shared/js/requestNextAnimationFrame.js'></script>
   <script src='../shared/js/sprites.js'></script>
   <script src="./main.js"></script>
